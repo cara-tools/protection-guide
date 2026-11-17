@@ -338,6 +338,31 @@ dialog input:focus,dialog select:focus{outline:0;border-color:var(--acc2);box-sh
 .in .clock .arc{stroke-dashoffset:8}
 @keyframes spin{to{transform:rotate(360deg)}}
 .narr{font:500 clamp(18px,5vw,22px)/1.4 var(--disp);color:var(--ink2);max-width:27em;margin-bottom:28px;padding-left:16px;border-left:3px solid var(--acc2)}
+/* income simulator */
+.sim-row{display:flex;justify-content:space-between;align-items:baseline;margin-top:20px}
+.sim-row label,.sim-lab{font:600 14px var(--disp);color:var(--ink2)}
+.sim-row b{font:700 26px var(--disp)}
+.sim-lab{margin-top:16px}
+.chartwrap{position:relative;margin-top:20px;padding-top:22px}
+.yline{position:absolute;left:0;right:0;top:22px;border-top:2px dashed var(--dim);opacity:.8;z-index:2;pointer-events:none}
+.yline span{position:absolute;right:0;top:-22px;font-size:11px;color:var(--dim);background:var(--pcard);padding:0 4px;border-radius:4px}
+.bars12{display:flex;gap:4px;height:170px;align-items:stretch}
+.bars12 .col{flex:1;display:flex;flex-direction:column-reverse;border-radius:6px;overflow:hidden;position:relative}
+.bars12 .col>div{flex:none;height:0;transition:height .6s cubic-bezier(.2,.8,.2,1)}
+.bars12 .e{background:#7ab8ff}.bars12 .s{background:#ffc46b}.bars12 .i{background:var(--brand)}
+.bars12 .g{background:repeating-linear-gradient(135deg,rgba(255,107,107,.28) 0 4px,transparent 4px 8px);flex:1!important;height:auto!important}
+.mlabels{display:flex;gap:4px;margin-top:6px;font-size:10.5px;color:var(--dim)}
+.mlabels span{flex:1;text-align:center}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:12px;color:var(--ink3)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
+.legend .gapi{background:repeating-linear-gradient(135deg,rgba(255,107,107,.7) 0 2px,transparent 2px 4px);border:1px solid rgba(255,107,107,.7)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
+.tiles div{padding:12px 10px;border-radius:16px;background:var(--soft);border:1px solid var(--line)}
+.tiles small{display:block;font-size:11px;color:var(--dim);line-height:1.25;min-height:28px}
+.tiles b{display:block;font:700 clamp(16px,4.6vw,22px) var(--disp);margin-top:4px}
+.tiles .bad b{color:#ff6b6b}
+.simnote{margin-top:16px;padding:14px 16px;border-radius:16px;background:var(--glass2);border-left:3px solid var(--acc2);font-size:14.5px;color:var(--ink2)}
+.simnote b{color:var(--ink)}
 /* sources */
 .src ol{margin:16px 0 0 20px;display:grid;gap:10px;font-size:13.5px;color:var(--ink3)}
 .src li{padding-left:4px}
@@ -603,20 +628,48 @@ footer p+p{margin-top:10px}
 
     </div></div>
 <div class="pg"><div class="wrap">
-    <div class="card reveal tl" id="tl">
-      <h3>How the support stacks up</h3>
-      <p class="dim small" style="margin-top:4px">Pick your waiting period (the “deferred period”) and watch the gap close.</p>
+    <div class="card reveal" id="sim">
+      <h3>What would your income look like?</h3>
+      <p class="dim small" style="margin-top:4px">Set your income and your employer’s sick pay, then see 12 months of being unable to work, with and without income protection.</p>
+
+      <div class="sim-row"><label for="simInc">Monthly income (before tax)</label><b id="simIncV" class="grad">£2,500</b></div>
+      <input type="range" id="simInc" min="1500" max="6000" step="100" value="2500" aria-label="Monthly income before tax">
+
+      <div class="sim-lab">Full employer sick pay for…</div>
+      <div class="opts" id="empOpts">
+        <button class="opt" aria-pressed="false" data-m="0">None</button>
+        <button class="opt" aria-pressed="true" data-m="1">1 month</button>
+        <button class="opt" aria-pressed="false" data-m="3">3 months</button>
+        <button class="opt" aria-pressed="false" data-m="6">6 months</button>
+      </div>
+
+      <div class="sim-lab">Income protection waiting period</div>
       <div class="opts" id="defOpts">
         <button class="opt" aria-pressed="false" data-w="4">4 wks</button>
         <button class="opt" aria-pressed="false" data-w="13">13 wks</button>
         <button class="opt" aria-pressed="true" data-w="26">26 wks</button>
         <button class="opt" aria-pressed="false" data-w="52">52 wks</button>
       </div>
-      <div class="row"><span>Employer pay</span><div class="t"><div class="seg2" id="sEmp" style="left:0;width:13%;background:#7ab8ff"></div></div></div>
-      <div class="row"><span>Sick Pay</span><div class="t"><div class="seg2" style="left:0;width:54%;background:#ffc46b">SSP £123/wk</div></div></div>
-      <div class="row"><span>Income protection</span><div class="t"><div class="seg2" id="sIp" style="background:var(--brand)">Pays up to 65% of income →</div></div></div>
-      <div class="axis"><span>Wk 0</span><span>26</span><span>52</span></div>
-      <p class="small dim" id="defNote" style="margin-top:12px"></p>
+
+      <div class="seg" id="simSeg" role="group" aria-label="Show income" style="margin-top:22px;max-width:none">
+        <button class="seg-b" aria-pressed="false" data-v="no">Without cover</button>
+        <button class="seg-b" aria-pressed="true" data-v="yes">With income protection</button>
+      </div>
+
+      <div class="chartwrap">
+        <div class="yline"><span id="simNorm">Normal income £2,500</span></div>
+        <div class="bars12" id="bars12"></div>
+        <div class="mlabels" id="mlabels"></div>
+      </div>
+      <div class="legend"><span><i style="background:#7ab8ff"></i>Employer pay</span><span><i style="background:#ffc46b"></i>Statutory Sick Pay</span><span><i style="background:var(--brand)"></i>Income protection</span><span><i class="gapi"></i>Shortfall</span></div>
+
+      <div class="tiles">
+        <div><small>You’d receive</small><b id="tRec">£0</b></div>
+        <div><small>Normal pay would be</small><b id="tNorm">£0</b></div>
+        <div class="bad"><small>Shortfall over 12 months</small><b id="tGap">£0</b></div>
+      </div>
+      <p class="simnote" id="simNote"></p>
+      <p class="small dim" style="margin-top:12px">Illustration only. Based on Statutory Sick Pay of £123.25 a week for up to 28 weeks<sup><a href="#src4">4</a></sup> and income protection paying up to 65% of income, with total income capped at your normal pay. Your employer’s terms and your policy will differ. Chart columns are months 1 to 12.</p>
     </div>
 
     <div class="twocol">
@@ -879,22 +932,48 @@ function showCI(m,anim){
   $('#cl').innerHTML=ciRows.map(r=>{const s=r[m=='core'?1:2];return `<li><span>${r[0]}</span><span class="s ${s}">${lbl[s]}</span></li>`}).join('');
   $$('#ciSeg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
 }
-['lifeTabs','ciSeg','defOpts','qs'].forEach(id=>{const el=document.getElementById(id);el.classList.add('jig');$$('button',el).forEach((b,i)=>b.style.setProperty('--k',i));el.addEventListener('click',()=>el.classList.add('touched'),{once:true})});
+['lifeTabs','ciSeg','empOpts','defOpts','simSeg','qs'].forEach(id=>{const el=document.getElementById(id);el.classList.add('jig');$$('button',el).forEach((b,i)=>b.style.setProperty('--k',i));el.addEventListener('click',()=>el.classList.add('touched'),{once:true})});
 $('#ciSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(b)showCI(b.dataset.m)});
 showCI('core');$('#ringfg').style.strokeDashoffset=327;
 new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){$('#ringfg').style.strokeDashoffset=327*(1-ci[$('#ciSeg [aria-pressed=true]').dataset.m].pct);o.disconnect()}},{threshold:.5}).observe($('.ring'));
 
-/* ----- INCOME PROTECTION ----- */
-const notes={4:'A short wait means income protection starts almost straight away — but premiums are higher.',13:'A 13-week wait is a popular balance between cost and speed, as many people have some employer pay.',26:'A 26-week wait lines up with the end of full employer sick pay for many employees, and keeps premiums lower.',52:'The longest wait gives the lowest premiums, but you’ll need savings or other income to cover the first year.'};
-function setDef(w){
-  const pct=Math.min(100,w/52*100);
-  const s=$('#sIp');s.style.left=pct+'%';s.style.width=(100-pct)+'%';
-  const emp=$('#sEmp');emp.style.width=Math.min(13,w/52*100)+'%';
-  $('#defNote').textContent=notes[w];
-  $$('#defOpts .opt').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.w===w));
+/* ----- INCOME PROTECTION SIMULATOR ----- */
+const SSP_WK=123.25, W=52/12, gbp=n=>'£'+Math.round(n).toLocaleString('en-GB');
+const sim={inc:2500,emp:1,def:26,view:'yes'};
+const barsEl=$('#bars12');
+barsEl.innerHTML=Array.from({length:12},()=>'<div class="col"><div class="e"></div><div class="s"></div><div class="i"></div><div class="g"></div></div>').join('');
+$('#mlabels').innerHTML=Array.from({length:12},(_,i)=>'<span>'+(i+1)+'</span>').join('');
+const ov=(a,b,x,y)=>Math.max(0,Math.min(y,b)-Math.max(x,a));
+function runSim(){
+  const M=sim.inc, E=sim.emp*W, D=sim.def, wkSSP=Math.min(SSP_WK,.8*M*12/52);
+  let rec=0;const cols=$$('.col',barsEl);
+  for(let i=0;i<12;i++){
+    const x=i*W,y=(i+1)*W;
+    const emp=M*ov(0,E,x,y)/W;
+    const ssp=wkSSP*ov(E,28,x,y);
+    const ip=Math.min(.65*M*ov(D,52,x,y)/W,Math.max(0,M-emp-ssp));
+    const useIP=sim.view==='yes'?ip:0;
+    const tot=Math.min(M,emp+ssp+useIP);
+    rec+=tot;
+    const pc=v=>(v/M*100).toFixed(1)+'%';
+    const c=cols[i].children;c[0].style.height=pc(emp);c[1].style.height=pc(Math.min(ssp,M-emp));c[2].style.height=pc(useIP);
+  }
+  const norm=M*12;
+  $('#simNorm').textContent='Normal income '+gbp(M)+' a month';
+  $('#tRec').textContent=gbp(rec);$('#tNorm').textContent=gbp(norm);$('#tGap').textContent=gbp(norm-rec);
+  const sspM=wkSSP*W, ipM=.65*M;
+  const emptxt=sim.emp?'Your employer pays full pay for '+sim.emp+(sim.emp>1?' months':' month')+'. ':'You’d go straight onto Statutory Sick Pay. ';
+  const base=emptxt+'After that, Statutory Sick Pay pays about <b>'+gbp(sspM)+' a month</b> and stops completely after week 28.';
+  const ipTxt=sim.view==='yes'
+    ?' With income protection and a '+sim.def+'-week wait, you could receive up to <b>'+gbp(ipM)+' a month</b> from week '+sim.def+', carrying on until you recover, retire or the policy ends, not just for 12 months.'
+    :' Switch to “With income protection” to see how the gap could be filled.';
+  $('#simNote').innerHTML=base+ipTxt;
 }
-$('#defOpts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(b)setDef(+b.dataset.w)});
-setDef(26);
+$('#simInc').addEventListener('input',e=>{sim.inc=+e.target.value;$('#simIncV').textContent=gbp(sim.inc);runSim()});
+$('#empOpts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;sim.emp=+b.dataset.m;$$('#empOpts .opt').forEach(x=>x.setAttribute('aria-pressed',x===b));runSim()});
+$('#defOpts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;sim.def=+b.dataset.w;$$('#defOpts .opt').forEach(x=>x.setAttribute('aria-pressed',x===b));runSim()});
+$('#simSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;sim.view=b.dataset.v;$$('#simSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b));runSim()});
+runSim();
 
 /* ----- FIT ----- */
 const P={life:{n:'Life insurance (level or decreasing term)',c:'#7ab8ff'},fib:{n:'Family income benefit',c:'#7ab8ff'},dec:{n:'Decreasing term life insurance',c:'#7ab8ff'},lvl:{n:'Level term life insurance',c:'#7ab8ff'},ci:{n:'Critical illness cover',c:'#ff7ad1'},ip:{n:'Full-term income protection',c:'#dae818'},sip:{n:'Short-term income protection',c:'#dae818'}};
