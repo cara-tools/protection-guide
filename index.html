@@ -359,12 +359,15 @@ dialog input:focus,dialog select:focus{outline:0;border-color:var(--acc2);box-sh
 .tiles .good b{color:var(--okc)}
 .lnk{color:var(--acc2);font-weight:600}
 .legend sup,#star{font-size:.8em}
-.cmp{display:grid;gap:14px;margin-top:22px}
-.cmp .lab{display:flex;justify-content:space-between;gap:12px;font-size:14px;color:var(--ink2)}
-.cmp .lab b{font-family:var(--disp);color:var(--ink)}
-.cmp .tr{height:16px;border-radius:99px;background:var(--soft);overflow:hidden;margin-top:6px}
-.cmp i{display:block;height:100%;width:0;border-radius:99px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
-.cmp .n{background:#7ab8ff}.cmp .s{background:#ffc46b}.cmp .p{background:var(--brand)}
+.inf{margin-top:20px}
+.il{font:600 13px var(--disp);color:var(--ink2);margin:14px 0 6px}
+.ib{display:flex;height:46px;border-radius:14px;overflow:hidden;background:var(--soft)}
+.sg{flex:none;width:0;display:grid;place-items:center;padding:0 6px;font:500 12px/1.15 var(--disp);text-align:center;color:#0a0e24;overflow:hidden;transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
+#sim.in .sg{width:var(--w)}
+.sg.a{background:#ffc46b}.sg.p{background:var(--brand)}
+.sg.g{background:repeating-linear-gradient(135deg,rgba(255,107,107,.3) 0 5px,transparent 5px 10px);color:var(--ink2)}
+.sg b{display:block;font-weight:700}
+.ax{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--dim)}
 /* sources */
 .src ol{margin:16px 0 0 20px;display:grid;gap:10px;font-size:13.5px;color:var(--ink3)}
 .src li{padding-left:4px}
@@ -633,15 +636,26 @@ footer p+p{margin-top:10px}
 <div class="pg"><div class="wrap">
     <div class="card reveal" id="sim">
       <h3>If you couldn’t work, what would come in?</h3>
-      <div class="sim-row"><label for="simInc">Your monthly income (before tax)</label><b id="simIncV" class="grad">£2,500</b></div>
-      <input type="range" id="simInc" min="1500" max="6000" step="100" value="2500" aria-label="Monthly income before tax">
-      <div class="cmp">
-        <div class="cr"><div class="lab"><span>Your normal income</span><b id="cNorm">£2,500</b></div><div class="tr"><i class="n" id="bNorm"></i></div></div>
-        <div class="cr"><div class="lab"><span>Statutory Sick Pay<sup><a href="#src4">4</a></sup></span><b id="cSsp">£534</b></div><div class="tr"><i class="s" id="bSsp"></i></div></div>
-        <div class="cr"><div class="lab"><span>Income protection, up to</span><b id="cIp">£1,625</b></div><div class="tr"><i class="p" id="bIp"></i></div></div>
+      <p class="dim small" style="margin-top:4px">An example on a £2,500 monthly income.</p>
+      <div class="inf">
+        <div class="il">Without income protection</div>
+        <div class="ib">
+          <div class="sg a" style="--w:54%"><span><b>£534</b> a month Sick Pay<sup><a href="#src4">4</a></sup></span></div>
+          <div class="sg g" style="--w:46%"><span>Sick Pay has ended</span></div>
+        </div>
+        <div class="il">With income protection</div>
+        <div class="ib">
+          <div class="sg a" style="--w:54%"><span>Sick Pay</span></div>
+          <div class="sg p" style="--w:46%"><span><b>Up to £1,625</b> a month</span></div>
+        </div>
+        <div class="ax"><span>Week 1</span><span>Week 28</span><span>Week 52+</span></div>
+      </div>
+      <div class="tiles two">
+        <div><small>Statutory Sick Pay</small><b>28 weeks</b></div>
+        <div class="good"><small>Income protection</small><b>Up to 65%</b></div>
       </div>
       <p class="simnote">Statutory Sick Pay stops after 28 weeks. Income protection can keep paying for as long as your policy’s payment period, or until you return to work.</p>
-      <p class="small dim" style="margin-top:12px">Illustration only. Statutory Sick Pay is £123.25 a week, and not available if you’re self-employed. Income protection pays up to 65% of your income.</p>
+      <p class="small dim" style="margin-top:12px">Illustration only. Statutory Sick Pay is £123.25 a week, and isn’t available if you’re self-employed. Income protection pays up to 65% of your income. Income protection shown here starts after a 28-week wait.</p>
     </div>
 
     <div class="card reveal" style="margin-top:20px">
@@ -905,16 +919,6 @@ function showCI(m,anim){
 $('#ciSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(b)showCI(b.dataset.m)});
 showCI('core');$('#ringfg').style.strokeDashoffset=327;
 new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){$('#ringfg').style.strokeDashoffset=327*(1-ci[$('#ciSeg [aria-pressed=true]').dataset.m].pct);o.disconnect()}},{threshold:.5}).observe($('.ring'));
-
-/* ----- INCOME PROTECTION COMPARISON ----- */
-const gbp=n=>'£'+Math.round(n).toLocaleString('en-GB');
-function runSim(){
-  const M=+$('#simInc').value, ssp=Math.min(123.25,.8*M*12/52)*52/12, ip=.65*M;
-  $('#simIncV').textContent=gbp(M);$('#cNorm').textContent=gbp(M);$('#cSsp').textContent=gbp(ssp);$('#cIp').textContent=gbp(ip);
-  $('#bNorm').style.width='100%';$('#bSsp').style.width=(ssp/M*100).toFixed(1)+'%';$('#bIp').style.width=(ip/M*100).toFixed(1)+'%';
-}
-$('#simInc').addEventListener('input',runSim);
-runSim();
 
 /* ----- myths ----- */
 $$('.myth').forEach(m=>{m.addEventListener('click',()=>m.classList.toggle('flip'));m.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();m.classList.toggle('flip')}})});
