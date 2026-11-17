@@ -128,6 +128,9 @@ html{scroll-snap-type:y mandatory;scroll-padding-top:0}
 .hero,.cta,.src{scroll-snap-align:start}
 footer{scroll-snap-align:end}
 @media(prefers-reduced-motion:reduce){html{scroll-snap-type:none}}
+/* jiggle hint: unselected options wiggle until the group is first tapped */
+@keyframes wiggle{0%,58%,100%{transform:none}62%{transform:translateX(-4px) rotate(-3deg)}68%{transform:translateX(4px) rotate(3deg)}74%{transform:translateX(-3px) rotate(-2deg)}80%{transform:translateX(3px) rotate(2deg)}86%{transform:translateX(-1px) rotate(-1deg)}92%{transform:none}}
+.jig:not(.touched) .tab[aria-selected=false],.jig:not(.touched) .opt[aria-pressed=false],.jig:not(.touched) .seg-b[aria-pressed=false],.jig:not(.touched) .q[aria-pressed=false]{animation:wiggle 4.2s ease-in-out infinite;animation-delay:calc(var(--k,0)*.22s + 1s)}
 .hero{min-height:100svh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 0 90px}
 .hero .wrap{transform:translateY(calc(var(--sy)*.28px));opacity:max(0,calc(1 - var(--sy)/520))}
 .hero .kick{font:600 12px var(--disp);letter-spacing:.2em;text-transform:uppercase;color:var(--ink2);margin-bottom:22px}
@@ -457,7 +460,7 @@ footer p+p{margin-top:10px}
 
     </div></div>
 <div class="pg"><div class="wrap">
-    <div class="eyebrow reveal">Choose your type</div>
+    <div class="eyebrow reveal">Tap a type to compare</div>
     <div class="tabs" id="lifeTabs" role="tablist" aria-label="Types of life insurance"></div>
     <div class="panel reveal" id="lifePanel">
       <div class="card">
@@ -491,10 +494,10 @@ footer p+p{margin-top:10px}
 
     </div></div>
 <div class="pg"><div class="wrap">
-    <div class="eyebrow reveal">Standard vs upgraded</div>
+    <div class="eyebrow reveal">Tap to switch: Standard vs upgraded</div>
     <div class="seg reveal" id="ciSeg" role="group" aria-label="Cover level">
-      <button aria-pressed="true" data-m="core">Standard</button>
-      <button aria-pressed="false" data-m="up">Upgraded</button>
+      <button class="seg-b" aria-pressed="true" data-m="core">Standard</button>
+      <button class="seg-b" aria-pressed="false" data-m="up">Upgraded</button>
     </div>
     <div class="ci-grid reveal">
       <div class="card" style="text-align:center">
@@ -743,6 +746,7 @@ function showCI(m,anim){
   $('#cl').innerHTML=ciRows.map(r=>{const s=r[m=='core'?1:2];return `<li><span>${r[0]}</span><span class="s ${s}">${lbl[s]}</span></li>`}).join('');
   $$('#ciSeg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
 }
+['lifeTabs','ciSeg','defOpts','qs'].forEach(id=>{const el=document.getElementById(id);el.classList.add('jig');$$('button',el).forEach((b,i)=>b.style.setProperty('--k',i));el.addEventListener('click',()=>el.classList.add('touched'),{once:true})});
 $('#ciSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(b)showCI(b.dataset.m)});
 showCI('core');$('#ringfg').style.strokeDashoffset=327;
 new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){$('#ringfg').style.strokeDashoffset=327*(1-ci[$('#ciSeg [aria-pressed=true]').dataset.m].pct);o.disconnect()}},{threshold:.5}).observe($('.ring'));
