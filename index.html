@@ -679,7 +679,7 @@ footer p+p{margin-top:10px}
       </div>
       <p class="simnote" id="simNote"></p>
       <p class="small dim" id="seNote" hidden>*Self-employed people don’t get Statutory Sick Pay. You may be able to claim <a class="lnk" href="https://www.gov.uk/employment-support-allowance" target="_blank" rel="noopener">New Style Employment and Support Allowance</a> (depending on your National Insurance record) or <a class="lnk" href="https://www.gov.uk/universal-credit" target="_blank" rel="noopener">Universal Credit</a>. These are modest, depend on your circumstances and aren’t included here.</p>
-      <p class="small dim" style="margin-top:12px">Illustration only. Statutory Sick Pay is £123.25 a week for up to 28 weeks.<sup><a href="#src4">4</a></sup> Income protection pays up to 65% of your income.</p>
+      <p class="small dim" style="margin-top:12px">Illustration only. Statutory Sick Pay is £123.25 a week for up to 28 weeks.<sup><a href="#src4">4</a></sup> Income protection pays up to 65% of your income. Policies differ on whether Sick Pay counts towards this, so we’ve assumed it does.</p>
     </div>
 
     <div class="twocol">
@@ -961,7 +961,8 @@ function runSim(){
     const x=i*W,y=(i+1)*W;
     const emp=M*ov(0,E,x,y)/W;
     const ssp=wkSSP*ov(E,28,x,y);
-    const ip=Math.min(.65*M*ov(D,52,x,y)/W,Math.max(0,M-emp-ssp));
+    const f=ov(D,52,x,y)/W;                       // share of this month that income protection is active
+    const ip=Math.max(0,(.65*M-emp-ssp)*f);      // tops income up to 65%; Sick Pay counts towards it (cautious)
     base.push(Math.min(M,emp+ssp));full.push(Math.min(M,emp+ssp+ip));
     const pc=v=>(v/M*100).toFixed(1)+'%';
     const c=cols[i].children;c[0].style.height=pc(emp);c[1].style.height=pc(Math.min(ssp,M-emp));c[2].style.height=pc(ip);
@@ -978,7 +979,7 @@ function runSim(){
   if(sim.self) t='As a self-employed person you wouldn’t get Statutory Sick Pay.*';
   else if(sim.emp) t='Your employer pays full pay for '+sim.emp+(sim.emp>1?' months':' month')+', then Statutory Sick Pay pays about <b>'+gbp(sspM)+' a month</b>.';
   else t='You’d go straight onto Statutory Sick Pay, which pays about <b>'+gbp(sspM)+' a month</b>.';
-  t+=' Income protection could add up to <b>'+gbp(ipM)+' a month</b> from week '+D+'.';
+  t+=' From week '+D+', income protection could take your monthly income up to <b>'+gbp(ipM)+'</b>.';
   $('#simNote').innerHTML=t;
 }
 $('#simInc').addEventListener('input',e=>{sim.inc=+e.target.value;$('#simIncV').textContent=gbp(sim.inc);runSim()});
