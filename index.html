@@ -359,6 +359,12 @@ dialog input:focus,dialog select:focus{outline:0;border-color:var(--acc2);box-sh
 .tiles .good b{color:var(--okc)}
 .lnk{color:var(--acc2);font-weight:600}
 .legend sup,#star{font-size:.8em}
+.cmp{display:grid;gap:14px;margin-top:22px}
+.cmp .lab{display:flex;justify-content:space-between;gap:12px;font-size:14px;color:var(--ink2)}
+.cmp .lab b{font-family:var(--disp);color:var(--ink)}
+.cmp .tr{height:16px;border-radius:99px;background:var(--soft);overflow:hidden;margin-top:6px}
+.cmp i{display:block;height:100%;width:0;border-radius:99px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.cmp .n{background:#7ab8ff}.cmp .s{background:#ffc46b}.cmp .p{background:var(--brand)}
 /* sources */
 .src ol{margin:16px 0 0 20px;display:grid;gap:10px;font-size:13.5px;color:var(--ink3)}
 .src li{padding-left:4px}
@@ -626,51 +632,16 @@ footer p+p{margin-top:10px}
     </div></div>
 <div class="pg"><div class="wrap">
     <div class="card reveal" id="sim">
-      <h3>What would your income look like?</h3>
-      <p class="dim small" style="margin-top:4px">See what you’d receive each month if you couldn’t work.</p>
-
-      <div class="seg" id="empSeg" role="group" aria-label="Employment status" style="margin-top:18px;max-width:none">
-        <button class="seg-b" aria-pressed="true" data-s="emp">Employed</button>
-        <button class="seg-b" aria-pressed="false" data-s="self">Self-employed</button>
-      </div>
-
-      <div class="sim-row"><label for="simInc">Monthly income (before tax)</label><b id="simIncV" class="grad">£2,500</b></div>
+      <h3>If you couldn’t work, what would come in?</h3>
+      <div class="sim-row"><label for="simInc">Your monthly income (before tax)</label><b id="simIncV" class="grad">£2,500</b></div>
       <input type="range" id="simInc" min="1500" max="6000" step="100" value="2500" aria-label="Monthly income before tax">
-
-      <div id="empWrap">
-        <div class="sim-lab">Full employer sick pay for…</div>
-        <div class="opts" id="empOpts">
-          <button class="opt" aria-pressed="false" data-m="0">None</button>
-          <button class="opt" aria-pressed="true" data-m="1">1 month</button>
-          <button class="opt" aria-pressed="false" data-m="3">3 months</button>
-          <button class="opt" aria-pressed="false" data-m="6">6 months</button>
-        </div>
+      <div class="cmp">
+        <div class="cr"><div class="lab"><span>Your normal income</span><b id="cNorm">£2,500</b></div><div class="tr"><i class="n" id="bNorm"></i></div></div>
+        <div class="cr"><div class="lab"><span>Statutory Sick Pay<sup><a href="#src4">4</a></sup></span><b id="cSsp">£534</b></div><div class="tr"><i class="s" id="bSsp"></i></div></div>
+        <div class="cr"><div class="lab"><span>Income protection, up to</span><b id="cIp">£1,625</b></div><div class="tr"><i class="p" id="bIp"></i></div></div>
       </div>
-
-      <div class="sim-lab">Income protection starts after…</div>
-      <div class="opts" id="defOpts">
-        <button class="opt" aria-pressed="false" data-w="4">4 wks</button>
-        <button class="opt" aria-pressed="false" data-w="8">8 wks</button>
-        <button class="opt" aria-pressed="false" data-w="13">13 wks</button>
-        <button class="opt" aria-pressed="true" data-w="26">26 wks</button>
-        <button class="opt" aria-pressed="false" data-w="52">52 wks</button>
-      </div>
-
-      <div class="chartwrap">
-        <div class="yline"><span id="simNorm">Normal income £2,500</span></div>
-        <div class="bars12" id="bars12"></div>
-        <div class="mlabels" id="mlabels"></div>
-        <p class="small dim" style="text-align:center;margin-top:6px">Month of illness. Tap a month.</p>
-      </div>
-      <div class="legend"><span><i style="background:#7ab8ff"></i>Employer</span><span><i style="background:#ffc46b"></i>Sick Pay<span id="star"></span></span><span><i style="background:var(--brand)"></i>Income protection</span></div>
-
-      <div class="tiles two">
-        <div><small id="tNoL">Without cover, month 8</small><b id="tNo">£0</b></div>
-        <div class="good"><small id="tYesL">With income protection</small><b id="tYes">£0</b></div>
-      </div>
-      <p class="simnote" id="simNote"></p>
-      <p class="small dim" id="seNote" hidden>*Self-employed people don’t get Statutory Sick Pay. You may be able to claim <a class="lnk" href="https://www.gov.uk/employment-support-allowance" target="_blank" rel="noopener">Employment and Support Allowance</a> (depending on your National Insurance record) or <a class="lnk" href="https://www.gov.uk/universal-credit" target="_blank" rel="noopener">Universal Credit</a>. These are modest, depend on your circumstances and aren’t included here.</p>
-      <p class="small dim" style="margin-top:12px">Illustration only. Statutory Sick Pay is £123.25 a week for up to 28 weeks.<sup><a href="#src4">4</a></sup> Income protection pays up to 65% of your income.</p>
+      <p class="simnote">Statutory Sick Pay stops after 28 weeks. Income protection can keep paying for as long as your policy’s payment period, or until you return to work.</p>
+      <p class="small dim" style="margin-top:12px">Illustration only. Statutory Sick Pay is £123.25 a week, and not available if you’re self-employed. Income protection pays up to 65% of your income.</p>
     </div>
 
     <div class="card reveal" style="margin-top:20px">
@@ -930,52 +901,19 @@ function showCI(m,anim){
   $('#cl').innerHTML=ciRows.map(r=>{const s=r[m=='core'?1:2];return `<li><span>${r[0]}</span><span class="s ${s}">${lbl[s]}</span></li>`}).join('');
   $$('#ciSeg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
 }
-['lifeTabs','ciSeg','empSeg','empOpts','defOpts'].forEach(id=>{const el=document.getElementById(id);el.classList.add('jig');$$('button',el).forEach((b,i)=>b.style.setProperty('--k',i));el.addEventListener('click',()=>el.classList.add('touched'),{once:true})});
+['lifeTabs','ciSeg'].forEach(id=>{const el=document.getElementById(id);el.classList.add('jig');$$('button',el).forEach((b,i)=>b.style.setProperty('--k',i));el.addEventListener('click',()=>el.classList.add('touched'),{once:true})});
 $('#ciSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(b)showCI(b.dataset.m)});
 showCI('core');$('#ringfg').style.strokeDashoffset=327;
 new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){$('#ringfg').style.strokeDashoffset=327*(1-ci[$('#ciSeg [aria-pressed=true]').dataset.m].pct);o.disconnect()}},{threshold:.5}).observe($('.ring'));
 
-/* ----- INCOME PROTECTION SIMULATOR ----- */
-const SSP_WK=123.25, W=52/12, gbp=n=>'£'+Math.round(n).toLocaleString('en-GB');
-const sim={inc:2500,emp:1,def:26,self:false,month:8};
-const barsEl=$('#bars12');
-barsEl.innerHTML=Array.from({length:12},(_,i)=>'<div class="col" data-i="'+(i+1)+'"><div class="e"></div><div class="s"></div><div class="i"></div><div class="g"></div></div>').join('');
-$('#mlabels').innerHTML=Array.from({length:12},(_,i)=>'<span data-i="'+(i+1)+'">'+(i+1)+'</span>').join('');
-const ov=(a,b,x,y)=>Math.max(0,Math.min(y,b)-Math.max(x,a));
+/* ----- INCOME PROTECTION COMPARISON ----- */
+const gbp=n=>'£'+Math.round(n).toLocaleString('en-GB');
 function runSim(){
-  const M=sim.inc, E=sim.self?0:sim.emp*W, D=sim.def, wkSSP=sim.self?0:Math.min(SSP_WK,.8*M*12/52);
-  const cols=$$('.col',barsEl), base=[], full=[];
-  for(let i=0;i<12;i++){
-    const x=i*W,y=(i+1)*W;
-    const emp=M*ov(0,E,x,y)/W;
-    const ssp=wkSSP*ov(E,28,x,y);
-    const f=ov(D,52,x,y)/W;                       // share of this month that income protection is active
-    const ip=Math.max(0,(.65*M-emp-ssp)*f);      // tops income up to 65%; Sick Pay counts towards it (cautious)
-    base.push(Math.min(M,emp+ssp));full.push(Math.min(M,emp+ssp+ip));
-    const pc=v=>(v/M*100).toFixed(1)+'%';
-    const c=cols[i].children;c[0].style.height=pc(emp);c[1].style.height=pc(Math.min(ssp,M-emp));c[2].style.height=pc(ip);
-  }
-  const m=sim.month;
-  cols.forEach((c,i)=>c.classList.toggle('sel',i+1===m));
-  $$('#mlabels span').forEach((l,i)=>l.classList.toggle('sel',i+1===m));
-  $('#simNorm').textContent='Normal income '+gbp(M)+' a month';
-  $('#tNoL').textContent='Without cover, month '+m;$('#tYesL').textContent='With income protection';
-  $('#tNo').textContent=gbp(base[m-1]);$('#tYes').textContent=gbp(full[m-1]);
-  $('#empWrap').hidden=sim.self;$('#seNote').hidden=!sim.self;$('#star').textContent=sim.self?'*':'';
-  const sspM=wkSSP*W, ipM=.65*M;
-  let t;
-  if(sim.self) t='As a self-employed person you wouldn’t get Statutory Sick Pay.*';
-  else if(sim.emp) t='Your employer pays full pay for '+sim.emp+(sim.emp>1?' months':' month')+', then Statutory Sick Pay pays about <b>'+gbp(sspM)+' a month</b>.';
-  else t='You’d go straight onto Statutory Sick Pay, which pays about <b>'+gbp(sspM)+' a month</b>.';
-  t+=' From week '+D+', income protection could take your monthly income up to <b>'+gbp(ipM)+'</b>.';
-  $('#simNote').innerHTML=t;
+  const M=+$('#simInc').value, ssp=Math.min(123.25,.8*M*12/52)*52/12, ip=.65*M;
+  $('#simIncV').textContent=gbp(M);$('#cNorm').textContent=gbp(M);$('#cSsp').textContent=gbp(ssp);$('#cIp').textContent=gbp(ip);
+  $('#bNorm').style.width='100%';$('#bSsp').style.width=(ssp/M*100).toFixed(1)+'%';$('#bIp').style.width=(ip/M*100).toFixed(1)+'%';
 }
-$('#simInc').addEventListener('input',e=>{sim.inc=+e.target.value;$('#simIncV').textContent=gbp(sim.inc);runSim()});
-$('#empSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;sim.self=b.dataset.s==='self';$$('#empSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b));runSim()});
-$('#empOpts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;sim.emp=+b.dataset.m;$$('#empOpts .opt').forEach(x=>x.setAttribute('aria-pressed',x===b));runSim()});
-$('#defOpts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;sim.def=+b.dataset.w;$$('#defOpts .opt').forEach(x=>x.setAttribute('aria-pressed',x===b));runSim()});
-const pickMonth=e=>{const t=e.target.closest('[data-i]');if(!t)return;sim.month=+t.dataset.i;runSim()};
-barsEl.addEventListener('click',pickMonth);$('#mlabels').addEventListener('click',pickMonth);
+$('#simInc').addEventListener('input',runSim);
 runSim();
 
 /* ----- myths ----- */
