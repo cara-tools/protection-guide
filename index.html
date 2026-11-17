@@ -333,6 +333,11 @@ dialog input:focus,dialog select:focus{outline:0;border-color:var(--acc2);box-sh
 .done .tick svg{width:30px;height:30px;stroke:#0a0e24;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:30;stroke-dashoffset:30;animation:draw .6s .2s forwards}
 @keyframes draw{to{stroke-dashoffset:0}}
 .done h3{padding:0}
+.clock{width:84px;height:84px;margin-top:16px}
+.clock .hand{transform-origin:50px 50px;animation:spin 14s linear infinite}
+.clock .arc{transition:stroke-dashoffset 2.2s cubic-bezier(.2,.8,.2,1)}
+.in .clock .arc{stroke-dashoffset:60}
+@keyframes spin{to{transform:rotate(360deg)}}
 /* sources */
 .src ol{margin:16px 0 0 20px;display:grid;gap:10px;font-size:13.5px;color:var(--ink3)}
 .src li{padding-left:4px}
@@ -449,6 +454,30 @@ footer p+p{margin-top:10px}
     </div>
 
     </div></div>
+<div class="pg"><div class="wrap">
+    <div class="eyebrow reveal">Behind the numbers</div>
+    <h2 class="reveal">Behind every statistic is <span class="grad">a family.</span></h2>
+    <p class="lead reveal">Nobody likes to think about it. But a little planning can make a very hard time a little easier.</p>
+    <div class="big">
+      <div class="bigstat reveal">
+        <div class="num grad"><span data-count="22">0</span> min</div>
+        <p>About every 22 minutes in the UK, a parent of dependent children dies. More than 100 children lose a parent every day.<sup><a href="#src10">10</a></sup></p>
+        <svg class="clock" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="none" stroke="var(--soft2)" stroke-width="5"/><circle class="arc" cx="50" cy="50" r="44" fill="none" stroke="url(#rg)" stroke-width="5" stroke-linecap="round" stroke-dasharray="277" stroke-dashoffset="277" transform="rotate(-90 50 50)"/><g class="hand"><line x1="50" y1="50" x2="50" y2="18" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/></g><circle cx="50" cy="50" r="4" fill="var(--ink)"/></svg>
+      </div>
+      <div class="bigstat reveal" style="--d:.1s">
+        <div class="num grad"><span data-count="2">0</span> in <span data-count="10">0</span></div>
+        <p>adults have less than £1,000 in savings, and 1 in 10 have none at all.<sup><a href="#src12">12</a></sup></p>
+        <div class="people" data-on="2"></div>
+      </div>
+      <div class="bigstat reveal" style="--d:.2s">
+        <div class="num grad"><span data-count="4285" data-prefix="£">0</span></div>
+        <p>the average cost of a funeral, before any other bills arrive.<sup><a href="#src11">11</a></sup></p>
+        <div class="bar" style="margin-top:14px"><div class="lab"><span>Savings buffer for 1 in 5 adults</span><b>under £1,000</b></div><div class="track"><div class="fill" style="--w:23%"></div></div></div>
+        <div class="bar" style="margin-top:12px"><div class="lab"><span>Average funeral</span><b>£4,285</b></div><div class="track"><div class="fill" style="--w:100%;background:#ff7a59"></div></div></div>
+      </div>
+    </div>
+    <p class="lead reveal" style="margin-top:28px">Life insurance is there to give families time, and one less thing to worry about.</p>
+  </div></div>
 <div class="pg"><div class="wrap">
     <div class="card bars reveal">
       <h3>So what happens to your income?</h3>
@@ -648,6 +677,9 @@ footer p+p{margin-top:10px}
       <li id="src7">Office for National Statistics, economic inactivity because of long-term sickness (around 2.8 million people). <a href="https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/economicinactivity/articles/risingillhealthandeconomicinactivitybecauseoflongtermsicknessuk/latest" target="_blank" rel="noopener">ons.gov.uk</a></li>
       <li id="src8">Legal &amp; General protection claims data: average age of income protection claimants is 35–45; average claim length is 6–7 years. <a href="https://www.legalandgeneral.com/" target="_blank" rel="noopener">legalandgeneral.com</a></li>
       <li id="src9">General product information: features such as typical term lengths, income replaced (up to 65%), short-term claim periods and numbers of conditions covered are typical of UK protection policies and vary between insurers. Always check the policy documents.</li>
+      <li id="src10">Childhood Bereavement Network and Winston’s Wish: a parent of dependent children dies about every 22 minutes in the UK, and over 100 children are bereaved of a parent each day (estimates vary slightly between sources). <a href="https://www.winstonswish.org/about-us/facts-and-figures/" target="_blank" rel="noopener">winstonswish.org</a></li>
+      <li id="src11">SunLife, Cost of Dying report 2025: the average funeral cost is £4,285. <a href="https://sunlife.co.uk/funeral-costs" target="_blank" rel="noopener">sunlife.co.uk</a></li>
+      <li id="src12">FCA Financial Lives survey 2024: 21% of adults have less than £1,000 in savings and 1 in 10 have no cash savings. <a href="https://www.fca.org.uk/news/press-releases/more-people-have-bank-accounts-one-ten-have-no-cash-savings" target="_blank" rel="noopener">fca.org.uk</a></li>
     </ol>
   </div></div>
 </section>
