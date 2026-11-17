@@ -605,7 +605,7 @@ footer p+p{margin-top:10px}
           <svg viewBox="0 0 120 120"><defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="#dae818"/><stop offset="1" stop-color="#f422b6"/></linearGradient></defs><circle class="bgc" cx="60" cy="60" r="52"/><circle class="fg" id="ringfg" cx="60" cy="60" r="52"/></svg>
           <div class="mid"><b class="grad" id="ringn">30+</b><span>conditions<sup><a href="#src9">9</a></sup></span></div>
         </div>
-        <h3 id="cit">Standard (unupgraded) cover</h3>
+        <h3 id="cit">Standard cover</h3>
         <p class="dim" id="cid" style="margin-top:8px;font-size:15px"></p>
       </div>
       <div class="card">
@@ -935,7 +935,7 @@ new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){drawChart(true);o.dis
 /* ----- CRITICAL ILLNESS ----- */
 const ciRows=[['Cancer','full','full'],['Heart attack','full','full'],['Stroke','full','full'],['Multiple sclerosis','full','full'],['Early-stage cancers','none','part'],['Heart procedures (e.g. angioplasty)','none','part'],['Wider, less common conditions','none','full'],['Children’s cover (often included)','full','full']];
 const lbl={full:'Full pay-out',part:'Part payment',none:'Not covered'};
-const ci={core:{n:'30+',pct:.38,t:'Standard (unupgraded) cover',d:'The unupgraded option: covers the major conditions behind most claims. A simpler, lower-cost way to be protected.'},up:{n:'50–100+',pct:.88,t:'Upgraded cover',d:'A wider range of conditions plus part payments for earlier-stage illness. More comprehensive, with a higher premium.'}};
+const ci={core:{n:'30+',pct:.38,t:'Standard cover',d:'Covers the major conditions behind most claims. A simpler, lower-cost way to be protected.'},up:{n:'50–100+',pct:.88,t:'Upgraded cover',d:'A wider range of conditions plus part payments for earlier-stage illness. More comprehensive, with a higher premium.'}};
 function showCI(m,anim){
   const c=ci[m];$('#ringn').textContent=c.n;$('#cit').textContent=c.t;$('#cid').textContent=c.d;
   $('#ringfg').style.strokeDashoffset=327*(1-c.pct);
