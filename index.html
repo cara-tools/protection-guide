@@ -359,15 +359,11 @@ dialog input:focus,dialog select:focus{outline:0;border-color:var(--acc2);box-sh
 .tiles .good b{color:var(--okc)}
 .lnk{color:var(--acc2);font-weight:600}
 .legend sup,#star{font-size:.8em}
-.inf{margin-top:20px}
-.il{font:600 13px var(--disp);color:var(--ink2);margin:14px 0 6px}
-.ib{display:flex;height:46px;border-radius:14px;overflow:hidden;background:var(--soft)}
-.sg{flex:none;width:0;display:grid;place-items:center;padding:0 6px;font:500 12px/1.15 var(--disp);text-align:center;color:#0a0e24;overflow:hidden;transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
-#sim.in .sg{width:var(--w)}
-.sg.a{background:#ffc46b}.sg.p{background:var(--brand)}
-.sg.g{background:repeating-linear-gradient(135deg,rgba(255,107,107,.3) 0 5px,transparent 5px 10px);color:var(--ink2)}
-.sg b{display:block;font-weight:700}
-.ax{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--dim)}
+.vs2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.vs2>div{padding:16px 14px;border-radius:18px;background:var(--soft);border:1px solid var(--line);text-align:center}
+.vs2 small{display:block;font:600 13px var(--disp);color:var(--ink2)}
+.vs2 b{display:block;font:700 clamp(28px,9vw,40px) var(--disp);margin:8px 0 4px}
+.vs2 span{font-size:13px;color:var(--ink3)}
 /* sources */
 .src ol{margin:16px 0 0 20px;display:grid;gap:10px;font-size:13.5px;color:var(--ink3)}
 .src li{padding-left:4px}
@@ -637,25 +633,11 @@ footer p+p{margin-top:10px}
     <div class="card reveal" id="sim">
       <h3>If you couldn’t work, what would come in?</h3>
       <p class="dim small" style="margin-top:4px">An example on a £2,500 monthly income.</p>
-      <div class="inf">
-        <div class="il">Without income protection</div>
-        <div class="ib">
-          <div class="sg a" style="--w:54%"><span><b>£534</b> a month Sick Pay<sup><a href="#src4">4</a></sup></span></div>
-          <div class="sg g" style="--w:46%"><span>Sick Pay has ended</span></div>
-        </div>
-        <div class="il">With income protection</div>
-        <div class="ib">
-          <div class="sg a" style="--w:54%"><span>Sick Pay</span></div>
-          <div class="sg p" style="--w:46%"><span><b>Up to £1,625</b> a month</span></div>
-        </div>
-        <div class="ax"><span>Week 1</span><span>Week 28</span><span>Week 52+</span></div>
+      <div class="vs2">
+        <div><small>Statutory Sick Pay<sup><a href="#src4">4</a></sup></small><b>£534</b><span>a month, for up to 28 weeks</span></div>
+        <div class="good"><small>Income protection</small><b class="grad">£1,625</b><span>a month, up to 65% of income</span></div>
       </div>
-      <div class="tiles two">
-        <div><small>Statutory Sick Pay</small><b>28 weeks</b></div>
-        <div class="good"><small>Income protection</small><b>Up to 65%</b></div>
-      </div>
-      <p class="simnote">Statutory Sick Pay stops after 28 weeks. Income protection can keep paying for as long as your policy’s payment period, or until you return to work.</p>
-      <p class="small dim" style="margin-top:12px">Illustration only. Statutory Sick Pay is £123.25 a week, and isn’t available if you’re self-employed. Income protection pays up to 65% of your income. Income protection shown here starts after a 28-week wait.</p>
+      <p class="small dim" style="margin-top:14px">Illustration only. Statutory Sick Pay isn’t available if you’re self-employed.</p>
     </div>
 
     <div class="card reveal" style="margin-top:20px">
