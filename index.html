@@ -999,10 +999,24 @@ const map={
 };
 const sel=new Set();
 function renderRecs(){
-  const out=new Map();
-  sel.forEach(k=>map[k].forEach(([id,why])=>{if(!out.has(id))out.set(id,{w:[],c:0});const o=out.get(id);o.c++;if(o.w.length<2)o.w.push(why)}));
-  const items=[...out].sort((a,b)=>b[1].c-a[1].c);
-  $('#recs').innerHTML=items.length?items.map(([id,o],i)=>`<div class="rec" style="--c:${P[id].c};animation-delay:${i*60}ms"><i></i><div><b>${P[id].n}</b><span>${o.w[0]}</span></div></div>`).join(''):'<div class="empty">Tap any of the options above to see suggestions ↑</div>';
+  const out=new Map(), swaps=[];
+  const add=(id,why,w)=>{if(!out.has(id))out.set(id,{w:[],c:0});const o=out.get(id);o.c+=w||1;if(o.w.length<2)o.w.push(why)};
+  sel.forEach(k=>map[k].forEach(([id,why])=>{
+    if(k==='budget')return;
+    if(id==='lvl'&&sel.has('kids')&&k!=='kids')return;            // family income benefit covers this for parents
+    add(id,why);
+  }));
+  if(sel.has('budget')){
+    // budget swaps the pricier options for lower-cost ones instead of adding more
+    const sw={ip:['sip','A lower cost way to cover the first 1, 2 or 5 years.'],lvl:['fib','Often cheaper than a large lump sum.'],ci:['dec','Keeping life cover affordable comes first; you can add critical illness later.']};
+    if(!sel.has('mort')&&out.has('ci'))sw.ci=['ci','Choose a lower amount or the Basic level to keep it affordable.'];
+    Object.keys(sw).forEach(id=>{if(out.has(id)){const o=out.get(id);out.delete(id);add(sw[id][0],sw[id][1],o.c+1)}});
+    if(!out.size){add('dec',map.budget[0][1]);add('sip',map.budget[1][1])}
+  }
+  if(out.has('ip')&&out.has('sip'))out.delete('sip');             // full-term already covers the short-term need
+  const items=[...out].sort((a,b)=>b[1].c-a[1].c).slice(0,4);
+  const note=sel.has('budget')?'<p class="small dim" style="margin:0 0 10px">Because you’re watching your budget, we’ve swapped in lower-cost options.</p>':'';
+  $('#recs').innerHTML=items.length?note+items.map(([id,o],i)=>`<div class="rec" style="--c:${P[id].c};animation-delay:${i*60}ms"><i></i><div><b>${P[id].n}</b><span>${o.w[0]}</span></div></div>`).join(''):'<div class="empty">Tap any of the options above to see suggestions ↑</div>';
 }
 $('#qs').addEventListener('click',e=>{const b=e.target.closest('.q');if(!b)return;const k=b.dataset.k;sel.has(k)?sel.delete(k):sel.add(k);b.setAttribute('aria-pressed',sel.has(k));renderRecs()});
 renderRecs();
