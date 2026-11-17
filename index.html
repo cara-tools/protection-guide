@@ -146,9 +146,12 @@ footer{scroll-snap-align:end}
 .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px}
 .btn2{padding:15px 26px;border-radius:99px;border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(10px);font:600 15px var(--disp);transition:.25s}
 .btn2{position:relative;overflow:hidden;isolation:isolate}
-.btn2::before,.pill::before,.btn::before{content:'';position:absolute;inset:0;background:var(--brand);transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.2,.8,.2,1);z-index:-1}
-.btn2:active::before,.pill:active::before{transform:scaleX(1)}
-@media(hover:hover){.btn2:hover{color:#0a0e24}.btn2:hover::before{transform:scaleX(1)}.pill:hover{transform:translateY(-2px)}.tab:hover,.opt:hover,.q:hover{transform:translateY(-2px)}}
+.btn2::before{content:'';position:absolute;inset:0;background:var(--brand);transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.2,.8,.2,1);z-index:-1}
+.btn2:active::before{transform:scaleX(1)}
+.pill,.btn{overflow:hidden;isolation:isolate}
+.pill::after,.btn::after{content:'';position:absolute;top:0;bottom:0;left:-70%;width:50%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.6),transparent);transform:skewX(-20deg);transition:left .7s cubic-bezier(.2,.8,.2,1);pointer-events:none;z-index:1}
+.pill:active,.btn:active{transform:scale(.96)}
+@media(hover:hover){.pill:hover::after,.btn:hover::after{left:130%}.btn:hover{transform:translateY(-2px)}.btn2:hover{color:#0a0e24}.btn2:hover::before{transform:scaleX(1)}.pill:hover{transform:translateY(-2px)}.tab:hover,.opt:hover,.q:hover{transform:translateY(-2px)}}
 .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:44px auto 0;max-width:520px;text-align:left}
 .hero-stats div{padding:14px 12px;border-radius:18px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(10px)}
 .hero-stats b{display:block;font:700 clamp(22px,6.5vw,32px) var(--disp)}
@@ -305,6 +308,31 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .empty{color:var(--dim);font-size:15px;padding:18px;border:1px dashed var(--line);border-radius:22px;text-align:center}
 @media(min-width:820px){.recs{grid-template-columns:1fr 1fr}}
 
+/* contact dialog */
+dialog{border:1px solid var(--line);border-radius:26px;background:var(--pcard);color:var(--ink);padding:26px 22px 22px;width:min(440px,calc(100% - 28px));max-height:calc(100svh - 28px);overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.45);margin:auto}
+dialog[open]{animation:dpop .4s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes dpop{from{opacity:0;transform:translateY(24px) scale(.96)}}
+dialog::backdrop{background:rgba(5,8,25,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+dialog h3{font:700 26px/1.1 var(--disp);padding-right:36px}
+dialog p.sub{color:var(--ink3);font-size:14.5px;margin:8px 0 18px}
+.dx{position:absolute;right:14px;top:14px;width:36px;height:36px;border-radius:50%;background:var(--soft);font-size:22px;line-height:1;display:grid;place-items:center}
+dialog label{display:block;font:600 13px var(--disp);margin:14px 0 6px;color:var(--ink2)}
+dialog input[type=text],dialog select{width:100%;font:400 16px var(--sans);color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:13px 14px;appearance:none;-webkit-appearance:none}
+dialog select{background-image:linear-gradient(45deg,transparent 50%,var(--dim) 50%),linear-gradient(135deg,var(--dim) 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%;background-size:6px 6px;background-repeat:no-repeat;padding-right:36px}
+dialog option{color:#141a3a}
+dialog input:focus,dialog select:focus{outline:0;border-color:var(--acc2);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc2) 25%,transparent)}
+.consent{display:flex;gap:12px;align-items:flex-start;margin-top:18px;font-size:14px;color:var(--ink2);cursor:pointer}
+.consent input{flex:none;width:22px;height:22px;margin-top:1px;accent-color:var(--acc2)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.go{width:100%;margin-top:20px;padding:16px;border-radius:99px;background:var(--brand);color:#0a0e24;font:700 16px var(--disp);position:relative;overflow:hidden}
+.go[disabled]{opacity:.6}
+.demo{margin-top:12px;font-size:12px;color:var(--dim);text-align:center}
+.err{margin-top:10px;font-size:13px;color:#ff6b6b;text-align:center}
+.done{text-align:center;padding:10px 0 4px}
+.done .tick{width:64px;height:64px;border-radius:50%;margin:0 auto 16px;background:var(--brand);display:grid;place-items:center}
+.done .tick svg{width:30px;height:30px;stroke:#0a0e24;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:30;stroke-dashoffset:30;animation:draw .6s .2s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.done h3{padding:0}
 /* sources */
 .src ol{margin:16px 0 0 20px;display:grid;gap:10px;font-size:13.5px;color:var(--ink3)}
 .src li{padding-left:4px}
@@ -370,7 +398,7 @@ footer p+p{margin-top:10px}
     <svg class="moon-i" viewBox="0 0 24 24"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg>
     <svg class="sun-i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.900 4.900l1.400 1.400M17.700 17.700l1.400 1.400M4.900 19.100l1.400-1.400M17.700 6.300l1.400-1.400"/></svg>
   </button>
-  <a class="pill" href="#talk">Get in touch</a>
+  <a class="pill" href="#talk" data-contact>Get in touch</a>
 </header>
 <nav class="dots" id="dots" aria-label="Sections">
   <a href="#top" data-s="hero" aria-label="Intro"></a><a href="#why" data-s="why" aria-label="Why"></a><a href="#life" data-s="life" aria-label="Life insurance"></a><a href="#ci" data-s="ci" aria-label="Critical illness"></a><a href="#ip" data-s="ip" aria-label="Income protection"></a><a href="#fit" data-s="fit" aria-label="Find your fit"></a>
@@ -603,7 +631,7 @@ footer p+p{margin-top:10px}
   <div class="wrap">
     <h2 class="reveal">Let’s protect <em class="grad">your plans.</em></h2>
     <p class="lead reveal" style="margin-inline:auto">Talk to a CARA adviser about what cover would suit you and your family. No jargon, no pressure.</p>
-    <a class="btn reveal" href="https://cara-tools.github.io">Speak to an adviser</a>
+    <a class="btn reveal" href="#talk" data-contact>Speak to an adviser</a>
   </div>
 </section>
 
@@ -633,10 +661,71 @@ footer p+p{margin-top:10px}
   </div>
 </footer>
 
+<dialog id="cdlg" aria-labelledby="cdT">
+  <button class="dx" type="button" id="cdX" aria-label="Close">×</button>
+  <div id="cdForm">
+    <h3 id="cdT">Book a protection review</h3>
+    <p class="sub">Leave your details and one of our advisers will be in touch to talk through the cover that could suit you.</p>
+    <form id="cf">
+      <label for="cn">Full name</label>
+      <input id="cn" name="name" type="text" autocomplete="name" required>
+      <label for="cc">Phone number or email</label>
+      <input id="cc" name="contact" type="text" autocomplete="off" required>
+      <label for="ct">Preferred contact time</label>
+      <select id="ct" name="time" required>
+        <option value="Morning (9am to 12pm)">Morning (9am to 12pm)</option>
+        <option value="Afternoon (12pm to 5pm)">Afternoon (12pm to 5pm)</option>
+        <option value="Evening (5pm to 8pm)">Evening (5pm to 8pm)</option>
+        <option value="Any time">Any time</option>
+      </select>
+      <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <label class="consent"><input type="checkbox" id="cch" name="consent" required><span>I’m happy for CARA Mortgage Services to contact me so we can book in a protection review.</span></label>
+      <button class="go" id="cgo" type="submit">Request a call back</button>
+      <div class="err" id="cerr" hidden>Sorry, something went wrong. Please try again.</div>
+      <p class="demo" id="cdemo">Demo only: this form isn’t connected yet, so nothing is sent.</p>
+    </form>
+  </div>
+  <div class="done" id="cdDone" hidden>
+    <div class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.500"/></svg></div>
+    <h3 id="cdH">Thank you</h3>
+    <p class="sub" id="cdP">We’ll be in touch at your preferred time to book your protection review.</p>
+    <p class="demo" id="cdemo2">Demo only: this form isn’t connected yet, so nothing was sent.</p>
+    <button class="go" type="button" id="cdClose">Close</button>
+  </div>
+</dialog>
+
 <script>
 (function(){
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ----- contact dialog ----- */
+/* To get notified of enquiries: create a free form at formspree.io (or web3forms.com), set the notification email,
+   and paste the form URL below. Leave blank for demo mode (nothing is sent). */
+const CONTACT={endpoint:'',extra:{}};
+const dlg=$('#cdlg'),cf=$('#cf');
+function openContact(){
+  $('#cdForm').hidden=false;$('#cdDone').hidden=true;$('#cerr').hidden=true;cf.reset();
+  $('#cdemo').hidden=$('#cdemo2').hidden=!!CONTACT.endpoint;
+  dlg.showModal();setTimeout(()=>$('#cn').focus(),50);
+}
+$$('[data-contact]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openContact()}));
+$('#cdX').addEventListener('click',()=>dlg.close());$('#cdClose').addEventListener('click',()=>dlg.close());
+dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
+cf.addEventListener('submit',async e=>{
+  e.preventDefault();
+  const d=new FormData(cf), name=(d.get('name')||'').toString().trim();
+  const finish=()=>{$('#cdH').textContent='Thank you'+(name?', '+name.split(' ')[0]:'');$('#cdForm').hidden=true;$('#cdDone').hidden=false};
+  if(d.get('website')){finish();return}            // spam trap
+  if(!CONTACT.endpoint){finish();return}           // demo mode
+  const btn=$('#cgo');btn.disabled=true;btn.textContent='Sending…';$('#cerr').hidden=true;
+  try{
+    const r=await fetch(CONTACT.endpoint,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({name,contact:d.get('contact'),preferredTime:d.get('time'),consentToContact:true,page:location.href,sentAt:new Date().toISOString(),...CONTACT.extra})});
+    if(!r.ok)throw 0;finish();
+  }catch(_){$('#cerr').hidden=false}
+  btn.disabled=false;btn.textContent='Request a call back';
+});
 
 /* ----- icon arrays ----- */
 const person='<svg viewBox="0 0 20 34"><circle cx="10" cy="7" r="5.5"/><path d="M3 32V20a7 7 0 0 1 14 0v12z"/></svg>';
