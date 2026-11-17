@@ -352,7 +352,10 @@ dialog input:focus,dialog select:focus{outline:0;border-color:var(--acc2);box-sh
 .bars12 .e{background:#7ab8ff}.bars12 .s{background:#ffc46b}.bars12 .i{background:var(--brand)}
 .bars12 .g{background:repeating-linear-gradient(135deg,rgba(255,107,107,.28) 0 4px,transparent 4px 8px);flex:1!important;height:auto!important}
 .mlabels{display:flex;gap:4px;margin-top:6px;font-size:10.5px;color:var(--dim)}
-.mlabels span{flex:1;text-align:center}
+.mlabels span{flex:1;text-align:center;cursor:pointer;padding:4px 0;border-radius:6px}
+.mlabels span.sel{background:var(--ink);color:var(--inv);font-weight:700}
+.bars12 .col{cursor:pointer;box-shadow:0 0 0 0 var(--ink)}
+.bars12 .col.sel{box-shadow:0 0 0 2px var(--ink)}
 .legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:12px;color:var(--ink3)}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
 .legend .gapi{background:repeating-linear-gradient(135deg,rgba(255,107,107,.7) 0 2px,transparent 2px 4px);border:1px solid rgba(255,107,107,.7)}
@@ -630,7 +633,7 @@ footer p+p{margin-top:10px}
 <div class="pg"><div class="wrap">
     <div class="card reveal" id="sim">
       <h3>What would your income look like?</h3>
-      <p class="dim small" style="margin-top:4px">Set your income and your employer’s sick pay, then see 12 months of being unable to work, with and without income protection.</p>
+      <p class="dim small" style="margin-top:4px">See what you’d receive each month if you couldn’t work.</p>
 
       <div class="sim-row"><label for="simInc">Monthly income (before tax)</label><b id="simIncV" class="grad">£2,500</b></div>
       <input type="range" id="simInc" min="1500" max="6000" step="100" value="2500" aria-label="Monthly income before tax">
@@ -660,16 +663,17 @@ footer p+p{margin-top:10px}
         <div class="yline"><span id="simNorm">Normal income £2,500</span></div>
         <div class="bars12" id="bars12"></div>
         <div class="mlabels" id="mlabels"></div>
+        <p class="small dim" style="text-align:center;margin-top:6px">Month of illness. Tap a month to see what you’d receive.</p>
       </div>
-      <div class="legend"><span><i style="background:#7ab8ff"></i>Employer pay</span><span><i style="background:#ffc46b"></i>Statutory Sick Pay</span><span><i style="background:var(--brand)"></i>Income protection</span><span><i class="gapi"></i>Shortfall</span></div>
+      <div class="legend"><span><i style="background:#7ab8ff"></i>Employer pay</span><span><i style="background:#ffc46b"></i>Sick Pay</span><span><i style="background:var(--brand)"></i>Income protection</span><span><i class="gapi"></i>Shortfall</span></div>
 
       <div class="tiles">
-        <div><small>You’d receive</small><b id="tRec">£0</b></div>
-        <div><small>Normal pay would be</small><b id="tNorm">£0</b></div>
-        <div class="bad"><small>Shortfall over 12 months</small><b id="tGap">£0</b></div>
+        <div><small>Normal income</small><b id="tNorm">£0</b></div>
+        <div><small id="tMonthL">Income in month 8</small><b id="tRec">£0</b></div>
+        <div class="bad"><small>Monthly shortfall</small><b id="tGap">£0</b></div>
       </div>
       <p class="simnote" id="simNote"></p>
-      <p class="small dim" style="margin-top:12px">Illustration only. Based on Statutory Sick Pay of £123.25 a week for up to 28 weeks<sup><a href="#src4">4</a></sup> and income protection paying up to 65% of income, with total income capped at your normal pay. Your employer’s terms and your policy will differ. Chart columns are months 1 to 12.</p>
+      <p class="small dim" style="margin-top:12px">Illustration only. Statutory Sick Pay is £123.25 a week for up to 28 weeks.<sup><a href="#src4">4</a></sup> Income protection pays up to 65% of your income. Your employer’s terms and your policy will differ.</p>
     </div>
 
     <div class="twocol">
@@ -939,40 +943,45 @@ new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){$('#ringfg').style.st
 
 /* ----- INCOME PROTECTION SIMULATOR ----- */
 const SSP_WK=123.25, W=52/12, gbp=n=>'£'+Math.round(n).toLocaleString('en-GB');
-const sim={inc:2500,emp:1,def:26,view:'yes'};
+const sim={inc:2500,emp:1,def:26,view:'yes',month:8};
 const barsEl=$('#bars12');
-barsEl.innerHTML=Array.from({length:12},()=>'<div class="col"><div class="e"></div><div class="s"></div><div class="i"></div><div class="g"></div></div>').join('');
-$('#mlabels').innerHTML=Array.from({length:12},(_,i)=>'<span>'+(i+1)+'</span>').join('');
+barsEl.innerHTML=Array.from({length:12},(_,i)=>'<div class="col" data-i="'+(i+1)+'"><div class="e"></div><div class="s"></div><div class="i"></div><div class="g"></div></div>').join('');
+$('#mlabels').innerHTML=Array.from({length:12},(_,i)=>'<span data-i="'+(i+1)+'">'+(i+1)+'</span>').join('');
 const ov=(a,b,x,y)=>Math.max(0,Math.min(y,b)-Math.max(x,a));
 function runSim(){
   const M=sim.inc, E=sim.emp*W, D=sim.def, wkSSP=Math.min(SSP_WK,.8*M*12/52);
-  let rec=0;const cols=$$('.col',barsEl);
+  const cols=$$('.col',barsEl), tots=[];
   for(let i=0;i<12;i++){
     const x=i*W,y=(i+1)*W;
     const emp=M*ov(0,E,x,y)/W;
     const ssp=wkSSP*ov(E,28,x,y);
     const ip=Math.min(.65*M*ov(D,52,x,y)/W,Math.max(0,M-emp-ssp));
     const useIP=sim.view==='yes'?ip:0;
-    const tot=Math.min(M,emp+ssp+useIP);
-    rec+=tot;
+    tots.push(Math.min(M,emp+ssp+useIP));
     const pc=v=>(v/M*100).toFixed(1)+'%';
     const c=cols[i].children;c[0].style.height=pc(emp);c[1].style.height=pc(Math.min(ssp,M-emp));c[2].style.height=pc(useIP);
   }
-  const norm=M*12;
+  cols.forEach((c,i)=>c.classList.toggle('sel',i+1===sim.month));
+  $$('#mlabels span').forEach((l,i)=>l.classList.toggle('sel',i+1===sim.month));
+  const got=tots[sim.month-1];
   $('#simNorm').textContent='Normal income '+gbp(M)+' a month';
-  $('#tRec').textContent=gbp(rec);$('#tNorm').textContent=gbp(norm);$('#tGap').textContent=gbp(norm-rec);
+  $('#tNorm').textContent=gbp(M);$('#tMonthL').textContent='Income in month '+sim.month;
+  $('#tRec').textContent=gbp(got);$('#tGap').textContent=gbp(M-got);
   const sspM=wkSSP*W, ipM=.65*M;
-  const emptxt=sim.emp?'Your employer pays full pay for '+sim.emp+(sim.emp>1?' months':' month')+'. ':'You’d go straight onto Statutory Sick Pay. ';
-  const base=emptxt+'After that, Statutory Sick Pay pays about <b>'+gbp(sspM)+' a month</b> and stops completely after week 28.';
-  const ipTxt=sim.view==='yes'
-    ?' With income protection and a '+sim.def+'-week wait, you could receive up to <b>'+gbp(ipM)+' a month</b> from week '+sim.def+', carrying on until you recover, retire or the policy ends, not just for 12 months.'
-    :' Switch to “With income protection” to see how the gap could be filled.';
-  $('#simNote').innerHTML=base+ipTxt;
+  const t1=sim.emp
+    ?'Your employer pays full pay for '+sim.emp+(sim.emp>1?' months':' month')+', then Statutory Sick Pay pays about <b>'+gbp(sspM)+' a month</b>.'
+    :'You’d go straight onto Statutory Sick Pay, which pays about <b>'+gbp(sspM)+' a month</b>.';
+  const t2=sim.view==='yes'
+    ?' With income protection you could receive up to <b>'+gbp(ipM)+' a month</b> from week '+sim.def+', until you recover or retire.'
+    :' Sick Pay stops after 28 weeks, and then there’s no income at all.';
+  $('#simNote').innerHTML=t1+t2;
 }
 $('#simInc').addEventListener('input',e=>{sim.inc=+e.target.value;$('#simIncV').textContent=gbp(sim.inc);runSim()});
 $('#empOpts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;sim.emp=+b.dataset.m;$$('#empOpts .opt').forEach(x=>x.setAttribute('aria-pressed',x===b));runSim()});
 $('#defOpts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;sim.def=+b.dataset.w;$$('#defOpts .opt').forEach(x=>x.setAttribute('aria-pressed',x===b));runSim()});
 $('#simSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;sim.view=b.dataset.v;$$('#simSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b));runSim()});
+const pickMonth=e=>{const t=e.target.closest('[data-i]');if(!t)return;sim.month=+t.dataset.i;runSim()};
+barsEl.addEventListener('click',pickMonth);$('#mlabels').addEventListener('click',pickMonth);
 runSim();
 
 /* ----- FIT ----- */
