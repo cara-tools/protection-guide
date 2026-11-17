@@ -165,9 +165,9 @@ footer{scroll-snap-align:end}
 .bigstat small{display:block;margin-top:10px;color:var(--dim);font-size:12px}
 @media(min-width:820px){.big{grid-template-columns:repeat(3,1fr)}.bigstat .num{font-size:clamp(56px,7vw,92px)}}
 .people{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:18px}
-.people svg{width:100%;height:auto;fill:rgba(255,255,255,.16);transform:scale(.6);opacity:0;transition:.5s cubic-bezier(.2,.9,.3,1.4);transition-delay:calc(var(--i)*55ms)}
+.people svg{width:100%;height:auto;overflow:visible;fill:var(--soft);stroke:var(--dim);stroke-width:1.5;stroke-opacity:.7;transform:scale(.6);opacity:0;transition:.5s cubic-bezier(.2,.9,.3,1.4);transition-delay:calc(var(--i)*55ms)}
 .people.in svg{transform:none;opacity:1}
-.people.in svg.on{fill:var(--acc2)}
+.people.in svg.on{fill:var(--acc2);stroke:var(--acc2);stroke-opacity:1}
 
 /* compare bar: SSP vs income */
 .bars{margin-top:44px;display:grid;gap:14px}
