@@ -334,10 +334,10 @@ dialog input:focus,dialog select:focus{outline:0;border-color:var(--acc2);box-sh
 @keyframes draw{to{stroke-dashoffset:0}}
 .done h3{padding:0}
 .clock{width:84px;height:84px;margin-top:16px}
-.clock .hand{transform-origin:50px 50px;animation:spin 14s linear infinite}
 .clock .arc{transition:stroke-dashoffset 2.2s cubic-bezier(.2,.8,.2,1)}
-.in .clock .arc{stroke-dashoffset:60}
+.in .clock .arc{stroke-dashoffset:8}
 @keyframes spin{to{transform:rotate(360deg)}}
+.narr{font:500 clamp(18px,5vw,22px)/1.4 var(--disp);color:var(--ink2);max-width:27em;margin-bottom:28px;padding-left:16px;border-left:3px solid var(--acc2)}
 /* sources */
 .src ol{margin:16px 0 0 20px;display:grid;gap:10px;font-size:13.5px;color:var(--ink3)}
 .src li{padding-left:4px}
@@ -433,9 +433,10 @@ footer p+p{margin-top:10px}
 <!-- ================= WHY ================= -->
 <section id="why" data-scene="why">
   <div class="pg"><div class="wrap">
+    <p class="narr reveal">First, a quick look at why this matters.</p>
     <div class="eyebrow reveal">The reality</div>
     <h2 class="reveal">It’s <em class="grad">more likely</em> than you think.</h2>
-    <p class="lead reveal">Nobody plans to be ill or to lose a loved one, but the numbers show it happens to ordinary families every day.</p>
+    <p class="lead reveal">Nobody plans for illness or loss, but it touches ordinary families more often than we think.</p>
 
     <div class="big">
       <div class="bigstat reveal">
@@ -455,28 +456,28 @@ footer p+p{margin-top:10px}
 
     </div></div>
 <div class="pg"><div class="wrap">
-    <div class="eyebrow reveal">Behind the numbers</div>
-    <h2 class="reveal">Behind every statistic is <span class="grad">a family.</span></h2>
-    <p class="lead reveal">Nobody likes to think about it. But a little planning can make a very hard time a little easier.</p>
+    <p class="narr reveal">Most of us are busy building a life: a home, a family, a career. Few of us stop to think about what would keep it all going if something changed.</p>
+    <div class="eyebrow reveal">Real life</div>
+    <h2 class="reveal">When life changes, <span class="grad">the bills don’t stop.</span></h2>
     <div class="big">
       <div class="bigstat reveal">
-        <div class="num grad"><span data-count="22">0</span> min</div>
-        <p>About every 22 minutes in the UK, a parent of dependent children dies. More than 100 children lose a parent every day.<sup><a href="#src10">10</a></sup></p>
-        <svg class="clock" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="none" stroke="var(--soft2)" stroke-width="5"/><circle class="arc" cx="50" cy="50" r="44" fill="none" stroke="url(#rg)" stroke-width="5" stroke-linecap="round" stroke-dasharray="277" stroke-dashoffset="277" transform="rotate(-90 50 50)"/><g class="hand"><line x1="50" y1="50" x2="50" y2="18" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/></g><circle cx="50" cy="50" r="4" fill="var(--ink)"/></svg>
-      </div>
-      <div class="bigstat reveal" style="--d:.1s">
         <div class="num grad"><span data-count="2">0</span> in <span data-count="10">0</span></div>
-        <p>adults have less than £1,000 in savings, and 1 in 10 have none at all.<sup><a href="#src12">12</a></sup></p>
+        <p>adults have less than £1,000 in savings, and 1 in 10 have none at all.<sup><a href="#src10">10</a></sup></p>
         <div class="people" data-on="2"></div>
       </div>
-      <div class="bigstat reveal" style="--d:.2s">
+      <div class="bigstat reveal" style="--d:.1s">
         <div class="num grad"><span data-count="4285" data-prefix="£">0</span></div>
-        <p>the average cost of a funeral, before any other bills arrive.<sup><a href="#src11">11</a></sup></p>
+        <p>is the average cost of a funeral, one of the first bills a family may face.<sup><a href="#src11">11</a></sup></p>
         <div class="bar" style="margin-top:14px"><div class="lab"><span>Savings buffer for 1 in 5 adults</span><b>under £1,000</b></div><div class="track"><div class="fill" style="--w:23%"></div></div></div>
         <div class="bar" style="margin-top:12px"><div class="lab"><span>Average funeral</span><b>£4,285</b></div><div class="track"><div class="fill" style="--w:100%;background:#ff7a59"></div></div></div>
       </div>
+      <div class="bigstat reveal" style="--d:.2s">
+        <div class="num grad"><span data-count="97" data-prefix="~" data-suffix="%">0</span></div>
+        <p>of protection claims were paid by UK insurers in 2024. This is where cover steps in.<sup><a href="#src5">5</a></sup></p>
+        <svg class="clock" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="none" stroke="var(--soft2)" stroke-width="6"/><circle class="arc" cx="50" cy="50" r="44" fill="none" stroke="url(#rg)" stroke-width="6" stroke-linecap="round" stroke-dasharray="277" stroke-dashoffset="277" transform="rotate(-90 50 50)"/><path d="M36 51l10 10 19-21" fill="none" stroke="var(--ink)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
     </div>
-    <p class="lead reveal" style="margin-top:28px">Life insurance is there to give families time, and one less thing to worry about.</p>
+    <p class="lead reveal" style="margin-top:28px">Protection gives families time, and one less thing to worry about.</p>
   </div></div>
 <div class="pg"><div class="wrap">
     <div class="card bars reveal">
@@ -488,7 +489,8 @@ footer p+p{margin-top:10px}
       <p class="small dim">Statutory Sick Pay is £123.25 a week in 2026/27 and is paid for a maximum of 28 weeks.<sup><a href="#src4">4</a></sup> The mortgage doesn’t pause.</p>
     </div>
 
-    <div class="eyebrow reveal" style="margin-top:36px">Your three layers of protection</div>
+    <p class="narr reveal" style="margin-top:34px">The good news? Looking after the people and plans you care about comes down to three simple building blocks.</p>
+    <div class="eyebrow reveal">Your three layers of protection</div>
     <div class="pillars">
       <a class="pillar reveal" href="#life" style="--c:#7ab8ff;--i:0">
         <span class="arrow">↓</span>
@@ -513,6 +515,7 @@ footer p+p{margin-top:10px}
 <!-- ================= LIFE ================= -->
 <section id="life" data-scene="life">
   <div class="pg"><div class="wrap">
+    <p class="narr reveal">Let’s start at home. If you weren’t around, how would the mortgage and household bills be covered?</p>
     <div class="chap reveal"><div class="n">01</div><h2>Life<br>insurance</h2></div>
     <p class="lead reveal">Pays out a lump sum, or a regular income, if you die during the policy term. The type you pick decides <em>how</em> the cover behaves over time.</p>
     <div class="facts">
@@ -547,6 +550,7 @@ footer p+p{margin-top:10px}
 <!-- ================= CRITICAL ILLNESS ================= -->
 <section id="ci" data-scene="ci">
   <div class="pg"><div class="wrap">
+    <p class="narr reveal">But protection isn’t only about the unthinkable. What if you were seriously unwell and needed time, and money, to get back on your feet?</p>
     <div class="chap reveal"><div class="n">02</div><h2>Critical illness<br>cover</h2></div>
     <p class="lead reveal">A tax-free lump sum if you’re diagnosed with a specified serious condition, paid while you’re alive and yours to use however you need. Clear the mortgage, replace income, fund treatment or just breathe.</p>
     <div class="facts">
@@ -587,6 +591,7 @@ footer p+p{margin-top:10px}
 <!-- ================= INCOME PROTECTION ================= -->
 <section id="ip" data-scene="ip">
   <div class="pg"><div class="wrap">
+    <p class="narr reveal">And what about the everyday? If illness or injury stopped you working for a while, your income could stop long before your bills do.</p>
     <div class="chap reveal"><div class="n">03</div><h2>Income<br>protection</h2></div>
     <p class="lead reveal">Pays a monthly income if illness or injury stops you working, covering the bills while you recover. Different to critical illness: it pays for <em>any</em> condition that stops you working, not just a list.</p>
     <div class="facts">
@@ -632,6 +637,7 @@ footer p+p{margin-top:10px}
 <!-- ================= FIT ================= -->
 <section id="fit" data-scene="fit">
   <div class="pg"><div class="wrap">
+    <p class="narr reveal">Every family is different, so let’s see what matters most to you.</p>
     <div class="eyebrow reveal">Your turn</div>
     <h2 class="reveal">Find your <em class="grad">starting point.</em></h2>
     <p class="lead reveal">Tap everything that sounds like you. We’ll point to where most people begin.</p>
@@ -677,9 +683,8 @@ footer p+p{margin-top:10px}
       <li id="src7">Office for National Statistics, economic inactivity because of long-term sickness (around 2.8 million people). <a href="https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/economicinactivity/articles/risingillhealthandeconomicinactivitybecauseoflongtermsicknessuk/latest" target="_blank" rel="noopener">ons.gov.uk</a></li>
       <li id="src8">Legal &amp; General protection claims data: average age of income protection claimants is 35–45; average claim length is 6–7 years. <a href="https://www.legalandgeneral.com/" target="_blank" rel="noopener">legalandgeneral.com</a></li>
       <li id="src9">General product information: features such as typical term lengths, income replaced (up to 65%), short-term claim periods and numbers of conditions covered are typical of UK protection policies and vary between insurers. Always check the policy documents.</li>
-      <li id="src10">Childhood Bereavement Network and Winston’s Wish: a parent of dependent children dies about every 22 minutes in the UK, and over 100 children are bereaved of a parent each day (estimates vary slightly between sources). <a href="https://www.winstonswish.org/about-us/facts-and-figures/" target="_blank" rel="noopener">winstonswish.org</a></li>
+      <li id="src10">FCA Financial Lives survey 2024: 21% of adults have less than £1,000 in savings and 1 in 10 have no cash savings. <a href="https://www.fca.org.uk/news/press-releases/more-people-have-bank-accounts-one-ten-have-no-cash-savings" target="_blank" rel="noopener">fca.org.uk</a></li>
       <li id="src11">SunLife, Cost of Dying report 2025: the average funeral cost is £4,285. <a href="https://sunlife.co.uk/funeral-costs" target="_blank" rel="noopener">sunlife.co.uk</a></li>
-      <li id="src12">FCA Financial Lives survey 2024: 21% of adults have less than £1,000 in savings and 1 in 10 have no cash savings. <a href="https://www.fca.org.uk/news/press-releases/more-people-have-bank-accounts-one-ten-have-no-cash-savings" target="_blank" rel="noopener">fca.org.uk</a></li>
     </ol>
   </div></div>
 </section>
