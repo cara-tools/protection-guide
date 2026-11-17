@@ -363,7 +363,7 @@ dialog input:focus,dialog select:focus{outline:0;border-color:var(--acc2);box-sh
 .vs2>div{padding:16px 14px;border-radius:18px;background:var(--soft);border:1px solid var(--line);text-align:center}
 .vs2 small{display:block;font:600 13px var(--disp);color:var(--ink2)}
 .vs2 b{display:block;font:700 clamp(28px,9vw,40px) var(--disp);margin:8px 0 4px}
-.vs2 span{font-size:13px;color:var(--ink3)}
+.vs2 span{display:block;font-size:13px;color:var(--ink3)}
 /* sources */
 .src ol{margin:16px 0 0 20px;display:grid;gap:10px;font-size:13.5px;color:var(--ink3)}
 .src li{padding-left:4px}
@@ -632,10 +632,11 @@ footer p+p{margin-top:10px}
 <div class="pg"><div class="wrap">
     <div class="card reveal" id="sim">
       <h3>If you couldn’t work, what would come in?</h3>
-      <p class="dim small" style="margin-top:4px">An example on a £2,500 monthly income.</p>
+      <div class="sim-row"><label for="simInc">Your annual income (before tax)</label><b id="simIncV" class="grad">£30,000</b></div>
+      <input type="range" id="simInc" min="18000" max="72000" step="1000" value="30000" aria-label="Annual income before tax">
       <div class="vs2">
-        <div><small>Statutory Sick Pay<sup><a href="#src4">4</a></sup></small><b>£534</b><span>a month, for up to 28 weeks</span></div>
-        <div class="good"><small>Income protection</small><b class="grad">£1,625</b><span>a month, up to 65% of income</span></div>
+        <div><small>Without income protection</small><b id="vNo">£534</b><span>a month of Statutory Sick Pay<sup><a href="#src4">4</a></sup>, which stops after 28 weeks</span></div>
+        <div class="good"><small>With income protection</small><b class="grad" id="vYes">£1,625</b><span>a month, up to 65% of your income</span></div>
       </div>
       <p class="small dim" style="margin-top:14px">Illustration only. Statutory Sick Pay isn’t available if you’re self-employed.</p>
     </div>
@@ -901,6 +902,14 @@ function showCI(m,anim){
 $('#ciSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(b)showCI(b.dataset.m)});
 showCI('core');$('#ringfg').style.strokeDashoffset=327;
 new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){$('#ringfg').style.strokeDashoffset=327*(1-ci[$('#ciSeg [aria-pressed=true]').dataset.m].pct);o.disconnect()}},{threshold:.5}).observe($('.ring'));
+
+/* ----- income protection comparison ----- */
+(function(){
+  const gbp=n=>'£'+Math.round(n).toLocaleString('en-GB');
+  const run=()=>{const A=+$('#simInc').value,M=A/12,ssp=Math.min(123.25,.8*A/52)*52/12;
+    $('#simIncV').textContent=gbp(A);$('#vNo').textContent=gbp(ssp);$('#vYes').textContent=gbp(.65*M)};
+  $('#simInc').addEventListener('input',run);run();
+})();
 
 /* ----- myths ----- */
 $$('.myth').forEach(m=>{m.addEventListener('click',()=>m.classList.toggle('flip'));m.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();m.classList.toggle('flip')}})});
