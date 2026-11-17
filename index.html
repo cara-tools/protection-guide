@@ -532,7 +532,7 @@ footer p+p{margin-top:10px}
       <a class="pillar reveal" href="#ci" style="--c:#ff7ad1;--i:1">
         <span class="arrow">↓</span>
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 21S3 15.5 3 9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.500-9 12-9 12z"/><path d="M5 12h4l1.500-3 2 6 1.500-3h5"/></svg></div>
-        <h3>Critical illness cover</h3><p>A tax-free lump sum if you’re diagnosed with a serious illness covered by your policy.</p><div class="pq">Standard or upgraded →</div>
+        <h3>Critical illness cover</h3><p>A tax-free lump sum if you’re diagnosed with a serious illness covered by your policy.</p><div class="pq">Basic or upgraded →</div>
       </a>
       <a class="pillar reveal" href="#ip" style="--c:#dae818;--i:2">
         <span class="arrow">↓</span>
@@ -594,9 +594,9 @@ footer p+p{margin-top:10px}
 
     </div></div>
 <div class="pg"><div class="wrap">
-    <div class="eyebrow reveal">Tap to switch: Standard vs upgraded</div>
+    <div class="eyebrow reveal">Tap to switch: Basic vs upgraded</div>
     <div class="seg reveal" id="ciSeg" role="group" aria-label="Cover level">
-      <button class="seg-b" aria-pressed="true" data-m="core">Standard</button>
+      <button class="seg-b" aria-pressed="true" data-m="core">Basic</button>
       <button class="seg-b" aria-pressed="false" data-m="up">Upgraded</button>
     </div>
     <div class="ci-grid reveal">
@@ -605,7 +605,7 @@ footer p+p{margin-top:10px}
           <svg viewBox="0 0 120 120"><defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="#dae818"/><stop offset="1" stop-color="#f422b6"/></linearGradient></defs><circle class="bgc" cx="60" cy="60" r="52"/><circle class="fg" id="ringfg" cx="60" cy="60" r="52"/></svg>
           <div class="mid"><b class="grad" id="ringn">30+</b><span>conditions<sup><a href="#src9">9</a></sup></span></div>
         </div>
-        <h3 id="cit">Standard cover</h3>
+        <h3 id="cit">Basic cover</h3>
         <p class="dim" id="cid" style="margin-top:8px;font-size:15px"></p>
       </div>
       <div class="card">
@@ -935,7 +935,7 @@ new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){drawChart(true);o.dis
 /* ----- CRITICAL ILLNESS ----- */
 const ciRows=[['Cancer','full','full'],['Heart attack','full','full'],['Stroke','full','full'],['Multiple sclerosis','full','full'],['Early-stage cancers','none','part'],['Heart procedures (e.g. angioplasty)','none','part'],['Wider, less common conditions','none','full'],['Children’s cover (often included)','full','full']];
 const lbl={full:'Full pay-out',part:'Part payment',none:'Not covered'};
-const ci={core:{n:'30+',pct:.38,t:'Standard cover',d:'Covers the major conditions behind most claims. A simpler, lower-cost way to be protected.'},up:{n:'50–100+',pct:.88,t:'Upgraded cover',d:'A wider range of conditions plus part payments for earlier-stage illness. More comprehensive, with a higher premium.'}};
+const ci={core:{n:'30+',pct:.38,t:'Basic cover',d:'Covers the major conditions behind most claims. A simpler, lower-cost way to be protected.'},up:{n:'50–100+',pct:.88,t:'Upgraded cover',d:'A wider range of conditions plus part payments for earlier-stage illness. More comprehensive, with a higher premium.'}};
 function showCI(m,anim){
   const c=ci[m];$('#ringn').textContent=c.n;$('#cit').textContent=c.t;$('#cid').textContent=c.d;
   $('#ringfg').style.strokeDashoffset=327*(1-c.pct);
