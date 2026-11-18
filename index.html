@@ -364,13 +364,25 @@ dialog input:focus,dialog select:focus{outline:0;border-color:var(--acc2);box-sh
 .vs2 small{display:block;font:600 13px var(--disp);color:var(--ink2)}
 .vs2 b{display:block;font:700 clamp(28px,9vw,40px) var(--disp);margin:8px 0 4px}
 .vs2 span{display:block;font-size:13px;color:var(--ink3)}
-/* sources */
-.src ol{margin:16px 0 0 20px;display:grid;gap:10px;font-size:13.5px;color:var(--ink3)}
-.src li{padding-left:4px}
-.src li:target{color:var(--ink)}
-.src a{color:var(--acc2);font-weight:600}
-.src a::after{content:" ↗";font-size:.85em}
-.src h3{font:600 24px/1 var(--disp)}
+/* source popover */
+.srbtn{position:absolute;top:12px;right:12px;z-index:3;display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;padding:0;border-radius:50%;border:1.5px solid currentColor;background:transparent;color:var(--acc2);font:700 11px/1 var(--disp);cursor:pointer;opacity:.85;transition:opacity .2s,background .2s}
+.srbtn::after{content:"";position:absolute;inset:-10px}
+.srbtn:hover,.srbtn[aria-expanded="true"]{opacity:1;background:var(--soft)}
+.srbtn.inl{position:relative;top:auto;right:auto;margin-left:6px;vertical-align:-3px}
+.myth .f.b .srbtn{color:#0a0e24}
+#srcpop{position:fixed;z-index:70;left:0;top:0;width:min(320px,calc(100vw - 24px));padding:14px 16px 14px;border-radius:16px;border:1px solid var(--line);background:var(--bg2);color:var(--ink);box-shadow:0 14px 40px rgba(0,0,0,.35);font:400 13.5px/1.5 var(--sans);opacity:0;transform:translateY(4px);pointer-events:none;transition:opacity .18s,transform .18s}
+#srcpop.on{opacity:1;transform:none;pointer-events:auto}
+#srcpop small{display:block;font:600 11px var(--disp);letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+#srcpop p{margin:0;padding-right:18px}
+#srcpop .e+.e{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+#srcpop a{display:inline-block;margin-top:8px;color:var(--acc2);font-weight:600;word-break:break-word}
+#srcpop a::after{content:" ↗";font-size:.85em}
+#srcpop .px{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;border:0;background:transparent;color:var(--dim);font-size:18px;line-height:1;cursor:pointer}
+#srcpop .px:hover{background:var(--soft)}
+#srcpop::before{content:"";position:absolute;left:var(--ax,20px);width:10px;height:10px;background:var(--bg2);border:1px solid var(--line);transform:translateX(-50%) rotate(45deg)}
+#srcpop[data-side="below"]::before{top:-6px;border-right:0;border-bottom:0}
+#srcpop[data-side="above"]::before{bottom:-6px;border-left:0;border-top:0}
+
 /* myths */
 .myths{display:grid;gap:14px;margin-top:40px}
 .myth{perspective:900px;height:210px}
@@ -456,7 +468,7 @@ footer p+p{margin-top:10px}
     <div class="hero-stats reveal" style="--d:.3s">
       <div><b class="grad"><span data-count="3">0</span></b><span>types of protection</span></div>
       <div><b class="grad"><span data-count="7">0</span></b><span>ways to tailor it</span></div>
-      <div><b class="grad"><span data-count="98" data-suffix="%">0</span></b><span>of claims paid<sup><a href="#src5">5</a></sup></span></div>
+      <div><b class="grad"><span data-count="98" data-suffix="%">0</span></b><span>of claims paid<sup class="sr"><a href="#src5">i</a></sup></span></div>
     </div>
     <div class="scroll reveal" style="--d:.36s"><b></b> Scroll to explore</div>
   </div>
@@ -473,16 +485,16 @@ footer p+p{margin-top:10px}
     <div class="big">
       <div class="bigstat reveal">
         <div class="num grad"><span data-count="1">0</span> in <span data-count="2">0</span></div>
-        <p>people in the UK will be diagnosed with cancer in their lifetime.<sup><a href="#src1">1</a></sup></p>
+        <p>people in the UK will be diagnosed with cancer in their lifetime.<sup class="sr"><a href="#src1">i</a></sup></p>
         <div class="people" data-on="5"></div>
       </div>
       <div class="bigstat reveal" style="--d:.1s">
         <div class="num grad"><span data-count="100" data-suffix="k">0</span></div>
-        <p>strokes happen in the UK every year, roughly one every five minutes.<sup><a href="#src2">2</a></sup></p>
+        <p>strokes happen in the UK every year, roughly one every five minutes.<sup class="sr"><a href="#src2">i</a></sup></p>
       </div>
       <div class="bigstat reveal" style="--d:.2s">
         <div class="num grad"><span data-count="8" data-suffix="m+">0</span></div>
-        <p>people in the UK are living with heart and circulatory disease.<sup><a href="#src3">3</a></sup></p>
+        <p>people in the UK are living with heart and circulatory disease.<sup class="sr"><a href="#src3">i</a></sup></p>
       </div>
     </div>
 
@@ -494,18 +506,18 @@ footer p+p{margin-top:10px}
     <div class="big">
       <div class="bigstat reveal">
         <div class="num grad"><span data-count="49" data-suffix="%">0</span></div>
-        <p>of households say they’d struggle beyond two months if their main income stopped.<sup><a href="#src12">12</a></sup> And 1 in 10 adults have no cash savings at all.<sup><a href="#src10">10</a></sup></p>
+        <p>of households say they’d struggle beyond two months if their main income stopped.<sup class="sr"><a href="#src12">i</a></sup> And 1 in 10 adults have no cash savings at all.<sup class="sr"><a href="#src10">i</a></sup></p>
         <div class="people" data-on="5"></div>
       </div>
       <div class="bigstat reveal" style="--d:.1s">
         <div class="num grad"><span data-count="19">0</span> days</div>
-        <p>is how long the average working household could cover its basic costs if its income stopped. People thought they’d manage about 41 days longer (2022).<sup><a href="#src11">11</a></sup></p>
+        <p>is how long the average working household could cover its basic costs if its income stopped. People thought they’d manage about 41 days longer (2022).<sup class="sr"><a href="#src11">i</a></sup></p>
         <div class="bar" style="margin-top:14px"><div class="lab"><span>What people expected</span><b>about 60 days</b></div><div class="track"><div class="fill" style="--w:100%;background:#ff7a59"></div></div></div>
         <div class="bar" style="margin-top:12px"><div class="lab"><span>What they could manage</span><b>19 days</b></div><div class="track"><div class="fill" style="--w:32%"></div></div></div>
       </div>
       <div class="bigstat reveal" style="--d:.2s">
         <div class="num grad"><span data-count="1">0</span> in <span data-count="8">0</span></div>
-        <p>households would run out of money within a week if their main income stopped.<sup><a href="#src12">12</a></sup> A third of people regularly use credit to pay for essentials.<sup><a href="#src12">12</a></sup></p>
+        <p>households would run out of money within a week if their main income stopped.<sup class="sr"><a href="#src12">i</a></sup> A third of people regularly use credit to pay for essentials.<sup class="sr"><a href="#src12">i</a></sup></p>
         <div class="bar" style="margin-top:12px"><div class="lab"><span>Could cover essentials for under a week</span><b>13%</b></div><div class="track"><div class="fill" style="--w:13%"></div></div></div>
       </div>
     </div>
@@ -542,10 +554,10 @@ footer p+p{margin-top:10px}
     <div class="chap reveal"><div class="n">01</div><h2>Life<br>insurance</h2></div>
     <p class="lead reveal">Pays out a lump sum, or a regular income, if you die during the policy term. The type you pick decides <em>how</em> the cover behaves over time.</p>
     <div class="facts">
-      <div class="fact reveal"><b class="grad"><span data-count="98" data-prefix="~" data-suffix="%">0</span></b><span>of individual protection claims paid by UK insurers in 2025<sup><a href="#src5">5</a></sup></span></div>
-      <div class="fact reveal" style="--d:.06s"><b class="grad"><span data-count="7.84" data-dec="2" data-prefix="£" data-suffix="bn">0</span></b><span>paid out in protection claims in 2025<sup><a href="#src5">5</a></sup></span></div>
-      <div class="fact reveal" style="--d:.12s"><b class="grad"><span data-count="10" data-suffix="–40">0</span> yrs</b><span>typical term lengths: match to your mortgage or kids<sup><a href="#src9">9</a></sup></span></div>
-      <div class="fact reveal" style="--d:.18s"><b class="grad">Fixed</b><span>premiums on most policies stay level for the whole term<sup><a href="#src9">9</a></sup></span></div>
+      <div class="fact reveal"><b class="grad"><span data-count="98" data-prefix="~" data-suffix="%">0</span></b><span>of individual protection claims paid by UK insurers in 2025<sup class="sr"><a href="#src5">i</a></sup></span></div>
+      <div class="fact reveal" style="--d:.06s"><b class="grad"><span data-count="7.84" data-dec="2" data-prefix="£" data-suffix="bn">0</span></b><span>paid out in protection claims in 2025<sup class="sr"><a href="#src5">i</a></sup></span></div>
+      <div class="fact reveal" style="--d:.12s"><b class="grad"><span data-count="10" data-suffix="–40">0</span> yrs</b><span>typical term lengths: match to your mortgage or kids<sup class="sr"><a href="#src9">i</a></sup></span></div>
+      <div class="fact reveal" style="--d:.18s"><b class="grad">Fixed</b><span>premiums on most policies stay level for the whole term<sup class="sr"><a href="#src9">i</a></sup></span></div>
     </div>
 
     </div></div>
@@ -566,7 +578,7 @@ footer p+p{margin-top:10px}
         <div class="sl"><span>Year 1</span><span>Policy term: 25 years</span><span>Year 24</span></div>
       </div>
     </div>
-    <p class="small dim reveal" style="margin-top:14px">Illustration only: £200,000 of cover over 25 years (family income benefit shown as £1,000 a month). Premiums and policy features vary by insurer, age, health and lifestyle.<sup><a href="#src9">9</a></sup></p>
+    <p class="small dim reveal" style="margin-top:14px">Illustration only: £200,000 of cover over 25 years (family income benefit shown as £1,000 a month). Premiums and policy features vary by insurer, age, health and lifestyle.<sup class="sr"><a href="#src9">i</a></sup></p>
   </div></div>
 </section>
 
@@ -577,10 +589,10 @@ footer p+p{margin-top:10px}
     <div class="chap reveal"><div class="n">02</div><h2>Critical illness<br>cover</h2></div>
     <p class="lead reveal">A tax-free lump sum if you’re diagnosed with a specified serious condition, paid while you’re alive and yours to use however you need. Clear the mortgage, replace income, fund treatment or just breathe.</p>
     <div class="facts">
-      <div class="fact reveal"><b class="grad">1 in 2</b><span>people will get cancer in their lifetime<sup><a href="#src1">1</a></sup></span></div>
-      <div class="fact reveal" style="--d:.06s"><b class="grad"><span data-count="65" data-suffix="%">0</span></b><span>of critical illness claims are for cancer (2025)<sup><a href="#src6">6</a></sup></span></div>
-      <div class="fact reveal" style="--d:.12s"><b class="grad"><span data-count="90" data-prefix="~" data-suffix="%">0</span></b><span>of critical illness claims are paid by UK insurers<sup><a href="#src5">5</a></sup></span></div>
-      <div class="fact reveal" style="--d:.18s"><b class="grad"><span data-count="100" data-suffix="%">0</span></b><span>of the lump sum is yours to spend as you choose<sup><a href="#src9">9</a></sup></span></div>
+      <div class="fact reveal"><b class="grad">1 in 2</b><span>people will get cancer in their lifetime<sup class="sr"><a href="#src1">i</a></sup></span></div>
+      <div class="fact reveal" style="--d:.06s"><b class="grad"><span data-count="65" data-suffix="%">0</span></b><span>of critical illness claims are for cancer (2025)<sup class="sr"><a href="#src6">i</a></sup></span></div>
+      <div class="fact reveal" style="--d:.12s"><b class="grad"><span data-count="90" data-prefix="~" data-suffix="%">0</span></b><span>of critical illness claims are paid by UK insurers<sup class="sr"><a href="#src5">i</a></sup></span></div>
+      <div class="fact reveal" style="--d:.18s"><b class="grad"><span data-count="100" data-suffix="%">0</span></b><span>of the lump sum is yours to spend as you choose<sup class="sr"><a href="#src9">i</a></sup></span></div>
     </div>
 
     </div></div>
@@ -594,23 +606,23 @@ footer p+p{margin-top:10px}
       <div class="card" style="text-align:center">
         <div class="ring">
           <svg viewBox="0 0 120 120"><defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="#dae818"/><stop offset="1" stop-color="#f422b6"/></linearGradient></defs><circle class="bgc" cx="60" cy="60" r="52"/><circle class="fg" id="ringfg" cx="60" cy="60" r="52"/></svg>
-          <div class="mid"><b class="grad" id="ringn">30+</b><span>conditions<sup><a href="#src9">9</a></sup></span></div>
+          <div class="mid"><b class="grad" id="ringn">30+</b><span>conditions<sup class="sr"><a href="#src9">i</a></sup></span></div>
         </div>
         <h3 id="cit">Basic cover</h3>
         <p class="dim" id="cid" style="margin-top:8px;font-size:15px"></p>
       </div>
       <div class="card">
         <ul class="cl" id="cl"></ul>
-        <p class="small dim" style="margin-top:10px">Conditions and definitions vary by insurer, so always check each policy. “Part payment” means a smaller percentage of the sum assured is paid.<sup><a href="#src9">9</a></sup></p>
+        <p class="small dim" style="margin-top:10px">Conditions and definitions vary by insurer, so always check each policy. “Part payment” means a smaller percentage of the sum assured is paid.<sup class="sr"><a href="#src9">i</a></sup></p>
       </div>
     </div>
     <div class="card reveal" style="margin-top:16px;display:flex;gap:18px;align-items:center;flex-wrap:wrap">
-      <div style="flex:1;min-width:230px"><h3>Top reason for claims</h3><p class="dim" style="margin-top:6px;font-size:15px">Cancer is the single most common reason people claim on critical illness cover: almost two-thirds of claims.<sup><a href="#src6">6</a></sup></p></div>
+      <div style="flex:1;min-width:230px"><h3>Top reason for claims</h3><p class="dim" style="margin-top:6px;font-size:15px">Cancer is the single most common reason people claim on critical illness cover: almost two-thirds of claims.<sup class="sr"><a href="#src6">i</a></sup></p></div>
       <div class="people" data-on="6" style="width:min(260px,100%);margin:0"></div>
     </div>
     <div class="card reveal" style="margin-top:16px">
       <h3>What about your children?</h3>
-      <p class="dim" style="margin-top:6px;font-size:15px">Many critical illness policies include children’s cover as standard when you take out cover for yourself, often at no extra cost. If a child is diagnosed with a specified serious condition, it pays a tax-free lump sum, which can help you take time off work or cover extra costs while they get the care they need. The amount, the conditions covered and the ages included vary by insurer.<sup><a href="#src9">9</a></sup></p>
+      <p class="dim" style="margin-top:6px;font-size:15px">Many critical illness policies include children’s cover as standard when you take out cover for yourself, often at no extra cost. If a child is diagnosed with a specified serious condition, it pays a tax-free lump sum, which can help you take time off work or cover extra costs while they get the care they need. The amount, the conditions covered and the ages included vary by insurer.<sup class="sr"><a href="#src9">i</a></sup></p>
     </div>
   </div></div>
 </section>
@@ -622,10 +634,10 @@ footer p+p{margin-top:10px}
     <div class="chap reveal"><div class="n">03</div><h2>Income<br>protection</h2></div>
     <p class="lead reveal">Pays a monthly income if illness or injury stops you working, covering the bills while you recover. Different to critical illness: it pays for <em>any</em> condition that stops you working, not just a list.</p>
     <div class="facts">
-      <div class="fact reveal"><b class="grad">Up to <span data-count="65" data-suffix="%">0</span></b><span>of your income can be replaced<sup><a href="#src9">9</a></sup></span></div>
-      <div class="fact reveal" style="--d:.06s"><b class="grad">35–45</b><span>the average age of income protection claimants<sup><a href="#src8">8</a></sup></span></div>
-      <div class="fact reveal" style="--d:.12s"><b class="grad"><span data-count="6" data-suffix="–7">0</span> yrs</b><span>the average length of an income protection claim<sup><a href="#src8">8</a></sup></span></div>
-      <div class="fact reveal" style="--d:.18s"><b class="grad"><span data-count="2.8" data-dec="1" data-suffix="m">0</span></b><span>people economically inactive due to long-term sickness<sup><a href="#src7">7</a></sup></span></div>
+      <div class="fact reveal"><b class="grad">Up to <span data-count="65" data-suffix="%">0</span></b><span>of your income can be replaced<sup class="sr"><a href="#src9">i</a></sup></span></div>
+      <div class="fact reveal" style="--d:.06s"><b class="grad">35–45</b><span>the average age of income protection claimants<sup class="sr"><a href="#src8">i</a></sup></span></div>
+      <div class="fact reveal" style="--d:.12s"><b class="grad"><span data-count="6" data-suffix="–7">0</span> yrs</b><span>the average length of an income protection claim<sup class="sr"><a href="#src8">i</a></sup></span></div>
+      <div class="fact reveal" style="--d:.18s"><b class="grad"><span data-count="2.8" data-dec="1" data-suffix="m">0</span></b><span>people economically inactive due to long-term sickness<sup class="sr"><a href="#src7">i</a></sup></span></div>
     </div>
 
     </div></div>
@@ -635,7 +647,7 @@ footer p+p{margin-top:10px}
       <div class="sim-row"><label for="simInc">Your annual income (before tax)</label><b id="simIncV" class="grad">£30,000</b></div>
       <input type="range" id="simInc" min="18000" max="72000" step="1000" value="30000" aria-label="Annual income before tax">
       <div class="vs2">
-        <div><small>Without income protection</small><b id="vNo">£534</b><span>a month of Statutory Sick Pay<sup><a href="#src4">4</a></sup>, which stops after 28 weeks</span></div>
+        <div><small>Without income protection</small><b id="vNo">£534</b><span>a month of Statutory Sick Pay<sup class="sr"><a href="#src4">i</a></sup>, which stops after 28 weeks</span></div>
         <div class="good"><small>With income protection</small><b class="grad" id="vYes">£1,625</b><span>a month, up to 65% of your income</span></div>
       </div>
       <p class="small dim" style="margin-top:14px">Illustration only. Statutory Sick Pay isn’t available if you’re self-employed.</p>
@@ -654,7 +666,7 @@ footer p+p{margin-top:10px}
       </div>
       <div class="card vs reveal" style="--d:.1s">
         <h3>Short-term income protection</h3>
-        <div class="big2 grad">1, 2 or 5 years</div><span class="dim small">Pays out for up to 1, 2 or 5 years per claim, depending on the policy you choose<sup><a href="#src9">9</a></sup>. It pays for your chosen payment period or until you return to work, whichever comes first</span>
+        <div class="big2 grad">1, 2 or 5 years</div><span class="dim small">Pays out for up to 1, 2 or 5 years per claim, depending on the policy you choose<sup class="sr"><a href="#src9">i</a></sup>. It pays for your chosen payment period or until you return to work, whichever comes first</span>
         <ul><li>Lower premiums and easier to afford</li><li>Great for gaps in employer or sick pay</li><li>Often suits self-employed people or tradespeople on a budget</li></ul>
       </div>
     </div>
@@ -666,9 +678,9 @@ footer p+p{margin-top:10px}
   <div class="pg"><div class="wrap">
     <div class="eyebrow reveal">Common myths</div>
     <div class="myths" style="margin-top:20px">
-      <div class="myth reveal" tabindex="0"><div class="in2"><div class="f"><small>Myth</small><p>“I’m young and healthy, so I don’t need it.”</p><small>Tap to flip ↻</small></div><div class="f b"><small>Reality</small><p>Income protection claimants are on average aged 35–45.<sup><a href="#src8" style="color:#0a0e24">8</a></sup> Cover is also usually cheaper the younger and healthier you are, and your premium can be locked in.</p></div></div></div>
-      <div class="myth reveal" style="--d:.08s" tabindex="0"><div class="in2"><div class="f"><small>Myth</small><p>“My employer will look after me.”</p><small>Tap to flip ↻</small></div><div class="f b"><small>Reality</small><p>Employer sick pay varies a lot and often stops well before a long recovery. Statutory Sick Pay ends after 28 weeks.<sup><a href="#src4" style="color:#0a0e24">4</a></sup></p></div></div></div>
-      <div class="myth reveal" style="--d:.16s" tabindex="0"><div class="in2"><div class="f"><small>Myth</small><p>“Insurers never pay out.”</p><small>Tap to flip ↻</small></div><div class="f b"><small>Reality</small><p>UK insurers paid ~98% of individual protection claims in 2025 (97.9%), including 96.7% of new life insurance claims.<sup><a href="#src5" style="color:#0a0e24">5</a></sup> Full, honest answers on your application help a claim go smoothly.</p></div></div></div>
+      <div class="myth reveal" tabindex="0"><div class="in2"><div class="f"><small>Myth</small><p>“I’m young and healthy, so I don’t need it.”</p><small>Tap to flip ↻</small></div><div class="f b"><small>Reality</small><p>Income protection claimants are on average aged 35–45.<sup class="sr"><a href="#src8" style="color:#0a0e24">i</a></sup> Cover is also usually cheaper the younger and healthier you are, and your premium can be locked in.</p></div></div></div>
+      <div class="myth reveal" style="--d:.08s" tabindex="0"><div class="in2"><div class="f"><small>Myth</small><p>“My employer will look after me.”</p><small>Tap to flip ↻</small></div><div class="f b"><small>Reality</small><p>Employer sick pay varies a lot and often stops well before a long recovery. Statutory Sick Pay ends after 28 weeks.<sup class="sr"><a href="#src4" style="color:#0a0e24">i</a></sup></p></div></div></div>
+      <div class="myth reveal" style="--d:.16s" tabindex="0"><div class="in2"><div class="f"><small>Myth</small><p>“Insurers never pay out.”</p><small>Tap to flip ↻</small></div><div class="f b"><small>Reality</small><p>UK insurers paid ~98% of individual protection claims in 2025 (97.9%), including 96.7% of new life insurance claims.<sup class="sr"><a href="#src5" style="color:#0a0e24">i</a></sup> Full, honest answers on your application help a claim go smoothly.</p></div></div></div>
       <div class="myth reveal" style="--d:.24s" tabindex="0"><div class="in2"><div class="f"><small>Myth</small><p>“It’s too expensive.”</p><small>Tap to flip ↻</small></div><div class="f b"><small>Reality</small><p>Cost depends on your age, health and the cover you choose, and it can be tailored to a budget. Starting while you’re younger and healthier usually costs less.</p></div></div></div>
       <div class="myth reveal" style="--d:.32s" tabindex="0"><div class="in2"><div class="f"><small>Myth</small><p>“I’m covered through work.”</p><small>Tap to flip ↻</small></div><div class="f b"><small>Reality</small><p>Cover through work, such as death in service, usually ends if you leave the job, and it may not be enough. Cover you own stays with you.</p></div></div></div>
       <div class="myth reveal" style="--d:.4s" tabindex="0"><div class="in2"><div class="f"><small>Myth</small><p>“I’m a stay-at-home parent, so I don’t need it.”</p><small>Tap to flip ↻</small></div><div class="f b"><small>Reality</small><p>If you were gone or seriously ill, your family would still need childcare, help at home and time. Cover can help pay for that.</p></div></div></div>
@@ -689,10 +701,7 @@ footer p+p{margin-top:10px}
   </div>
 </section>
 
-<section class="src" id="sources" data-scene="fit">
-  <div class="wrap"><div class="card reveal">
-    <h3>Sources</h3>
-    <ol>
+<ol id="srcdata" hidden>
       <li id="src1">Cancer Research UK, lifetime risk of cancer. <a href="https://www.cancerresearchuk.org/health-professional/cancer-statistics/risk/lifetime-risk" target="_blank" rel="noopener">cancerresearchuk.org</a></li>
       <li id="src2">Stroke Association, stroke statistics (around 100,000 strokes a year in the UK). <a href="https://www.stroke.org.uk/" target="_blank" rel="noopener">stroke.org.uk</a></li>
       <li id="src3">British Heart Foundation, UK facts and figures (more than 8 million people living with heart and circulatory diseases). <a href="https://www.bhf.org.uk/for-professionals/press-centre/facts-and-figures" target="_blank" rel="noopener">bhf.org.uk</a></li>
@@ -706,17 +715,17 @@ footer p+p{margin-top:10px}
       <li id="src11">Legal &amp; General, Deadline to Breadline report, August 2022: working households could cover basic costs for about 19 days without income, and people overestimated this by 41 days. <a href="https://group.legalandgeneral.com/asset/4936ec/globalassets/group/newsroom/press-releases/pdfs/2022/08/d2b-launch-release-180822-final-final.pdf/" target="_blank" rel="noopener">legalandgeneral.com</a></li>
     <li id="src12">Novuna Consumer Confidence Tracker, May 2026: 49% of households said they would struggle beyond two months if their main income stopped, 13% could cover essentials for less than a week, and a third of consumers regularly use credit to pay for essentials. <a href="https://www.novuna.co.uk/news-and-insights/group-updates/half-of-uk-households-would-run-out-of-money-within-two-months-despite-uk-growth/" target="_blank" rel="noopener">novuna.co.uk</a></li>
     </ol>
-  </div></div>
-</section>
 </main>
 
 <footer>
   <div class="wrap">
     <a href="#top"><img class="lg-d" src="logo-dark.svg" alt="CARA Mortgage Services"><img class="lg-l" src="logo.svg" alt="" aria-hidden="true"></a>
-    <p>This page is for general information only and is not personal advice or a recommendation. Cover is subject to terms, conditions, exclusions and underwriting. Premiums and policy features vary between insurers. Figures are illustrative or indicative and based on the published sources listed above. Your mortgage may be at risk if you do not keep up repayments.</p>
+    <p>This page is for general information only and is not personal advice or a recommendation. Cover is subject to terms, conditions, exclusions and underwriting. Premiums and policy features vary between insurers. Figures are illustrative or indicative and based on published sources, which you can see by tapping the ⓘ in the corner of each card. Your mortgage may be at risk if you do not keep up repayments.</p>
     <p>© CARA Mortgage Services</p>
   </div>
 </footer>
+
+<div id="srcpop" role="dialog" aria-label="Source" hidden></div>
 
 <dialog id="cdlg" aria-labelledby="cdT">
   <button class="dx" type="button" id="cdX" aria-label="Close">×</button>
@@ -912,6 +921,81 @@ new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){$('#ringfg').style.st
   $('#simInc').addEventListener('input',run);run();
 })();
 
+/* ----- source popovers ----- */
+(function(){
+const pop=document.getElementById('srcpop');let cur=null;
+const CARD='.hero-stats>div,.bigstat,.fact,.card,.myth .f.b';
+/* gather each card's source icons into one corner button */
+const groups=new Map();
+$$('sup.sr').forEach(s=>{
+  const a=s.querySelector('a');if(!a)return;
+  const id=a.getAttribute('href').slice(1);
+  const key=s.closest(CARD)||s;
+  if(!groups.has(key))groups.set(key,{ids:[],first:s,sups:[]});
+  const g=groups.get(key);if(!g.ids.includes(id))g.ids.push(id);g.sups.push(s);
+});
+groups.forEach((g,card)=>{
+  const b=document.createElement('button');
+  b.type='button';b.className='srbtn';b.textContent='i';
+  b.dataset.srcs=g.ids.join(' ');
+  b.setAttribute('aria-haspopup','dialog');b.setAttribute('aria-expanded','false');
+  b.setAttribute('aria-label',g.ids.length>1?'Show sources':'Show source');
+  if(card===g.first){b.classList.add('inl');g.first.replaceWith(b)}
+  else{
+    if(getComputedStyle(card).position==='static')card.style.position='relative';
+    card.appendChild(b);g.sups.forEach(s=>s.remove());
+  }
+});
+function fill(btn){
+  const ids=btn.dataset.srcs.split(' ');
+  pop.textContent='';
+  const sm=document.createElement('small');sm.textContent=ids.length>1?'Sources':'Source';
+  const x=document.createElement('button');x.type='button';x.className='px';x.setAttribute('aria-label','Close');x.textContent='×';
+  pop.append(sm,x);
+  let any=false;
+  ids.forEach(id=>{
+    const li=document.getElementById(id);if(!li)return;any=true;
+    const link=li.querySelector('a');
+    const txt=[...li.childNodes].filter(n=>n!==link).map(n=>n.textContent).join('').trim().replace(/[\s,.:]+$/,'');
+    const e=document.createElement('div');e.className='e';
+    const p=document.createElement('p');p.textContent=txt;e.append(p);
+    if(link){const l=document.createElement('a');l.href=link.href;l.target='_blank';l.rel='noopener';l.textContent=link.textContent;e.append(l)}
+    pop.append(e);
+  });
+  return any;
+}
+function place(){
+  if(!cur)return;
+  const r=cur.getBoundingClientRect();
+  if(r.bottom<0||r.top>innerHeight){hide();return}
+  const w=pop.offsetWidth,h=pop.offsetHeight,m=12;
+  const left=Math.min(Math.max(m,r.left+r.width/2-w/2),innerWidth-w-m);
+  const below=r.bottom+10+h<=innerHeight-m||r.top-10-h<m;
+  pop.style.left=left+'px';pop.style.top=(below?r.bottom+10:r.top-10-h)+'px';
+  pop.dataset.side=below?'below':'above';
+  pop.style.setProperty('--ax',Math.min(Math.max(18,r.left+r.width/2-left),w-18)+'px');
+}
+function show(b){
+  if(!fill(b))return;
+  if(cur)cur.setAttribute('aria-expanded','false');
+  cur=b;b.setAttribute('aria-expanded','true');
+  pop.hidden=false;place();requestAnimationFrame(()=>{pop.classList.add('on');place()});
+}
+function hide(){
+  if(cur)cur.setAttribute('aria-expanded','false');
+  cur=null;pop.classList.remove('on');
+  setTimeout(()=>{if(!cur)pop.hidden=true},200);
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest&&e.target.closest('.srbtn');
+  if(b){e.preventDefault();e.stopPropagation();cur===b?hide():show(b);return}
+  if(e.target.closest('#srcpop .px')){const c=cur;hide();c&&c.focus();return}
+  if(cur&&!e.target.closest('#srcpop'))hide();
+},true);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&cur){const c=cur;hide();c.focus()}});
+addEventListener('scroll',()=>{if(cur)place()},{passive:true});
+addEventListener('resize',()=>{if(cur)place()});
+})();
 /* ----- myths ----- */
 $$('.myth').forEach(m=>{m.addEventListener('click',()=>m.classList.toggle('flip'));m.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();m.classList.toggle('flip')}})});
 })();
