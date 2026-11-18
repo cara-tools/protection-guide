@@ -736,15 +736,8 @@ footer p+p{margin-top:10px}
     <form id="cf">
       <label for="cn">Full name</label>
       <input id="cn" name="name" type="text" autocomplete="name" required>
-      <label for="cc">Phone number or email</label>
-      <input id="cc" name="contact" type="text" autocomplete="off" required>
-      <label for="ct">Preferred contact time</label>
-      <select id="ct" name="time" required>
-        <option value="Morning (9am to 12pm)">Morning (9am to 12pm)</option>
-        <option value="Afternoon (12pm to 5pm)">Afternoon (12pm to 5pm)</option>
-        <option value="Evening (5pm to 8pm)">Evening (5pm to 8pm)</option>
-        <option value="Any time">Any time</option>
-      </select>
+      <label for="cc">Email address</label>
+      <input id="cc" name="email" type="email" autocomplete="email" inputmode="email" required>
       <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
       <label class="consent"><input type="checkbox" id="cch" name="consent" required><span>I’m happy for CARA Mortgage Services to contact me so we can book in a protection review.</span></label>
       <button class="go" id="cgo" type="submit">Request a call back</button>
@@ -755,7 +748,7 @@ footer p+p{margin-top:10px}
   <div class="done" id="cdDone" hidden>
     <div class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.500"/></svg></div>
     <h3 id="cdH">Thank you</h3>
-    <p class="sub" id="cdP">We’ll be in touch at your preferred time to book your protection review.</p>
+    <p class="sub" id="cdP">We’ll be in touch soon to book your protection review.</p>
     <p class="demo" id="cdemo2">Demo only: this form isn’t connected yet, so nothing was sent.</p>
     <button class="go" type="button" id="cdClose">Close</button>
   </div>
@@ -788,7 +781,7 @@ cf.addEventListener('submit',async e=>{
   const btn=$('#cgo');btn.disabled=true;btn.textContent='Sending…';$('#cerr').hidden=true;
   try{
     const r=await fetch(CONTACT.endpoint,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body:JSON.stringify({name,contact:d.get('contact'),preferredTime:d.get('time'),consentToContact:true,page:location.href,sentAt:new Date().toISOString(),...CONTACT.extra})});
+      body:JSON.stringify({name,email:d.get('email'),consentToContact:true,page:location.href,sentAt:new Date().toISOString(),...CONTACT.extra})});
     if(!r.ok)throw 0;finish();
   }catch(_){$('#cerr').hidden=false}
   btn.disabled=false;btn.textContent='Request a call back';
