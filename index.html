@@ -305,9 +305,10 @@ dialog[open]{animation:dpop .4s cubic-bezier(.2,.9,.3,1.2)}
 dialog::backdrop{background:rgba(5,8,25,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 dialog h3{font:700 26px/1.1 var(--disp);padding-right:36px}
 dialog p.sub{color:var(--ink3);font-size:14.5px;margin:8px 0 18px}
+.hint{font-size:13px;color:var(--dim);margin:8px 0 0}
 .dx{position:absolute;right:14px;top:14px;width:36px;height:36px;border-radius:50%;background:var(--soft);font-size:22px;line-height:1;display:grid;place-items:center}
 dialog label{display:block;font:600 13px var(--disp);margin:14px 0 6px;color:var(--ink2)}
-dialog input[type=text],dialog input[type=email],dialog select{width:100%;font:400 16px var(--sans);color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:13px 14px;appearance:none;-webkit-appearance:none}
+dialog input[type=text],dialog input[type=email],dialog input[type=tel],dialog select{width:100%;font:400 16px var(--sans);color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:13px 14px;appearance:none;-webkit-appearance:none}
 dialog select{background-image:linear-gradient(45deg,transparent 50%,var(--dim) 50%),linear-gradient(135deg,var(--dim) 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%;background-size:6px 6px;background-repeat:no-repeat;padding-right:36px}
 dialog option{color:#141a3a}
 dialog input:focus,dialog select:focus{outline:0;border-color:var(--acc2);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc2) 25%,transparent)}
@@ -737,7 +738,10 @@ footer p+p{margin-top:10px}
       <label for="cn">Full name</label>
       <input id="cn" name="name" type="text" autocomplete="name" required>
       <label for="cc">Email address</label>
-      <input id="cc" name="email" type="email" autocomplete="email" inputmode="email" required>
+      <input id="cc" name="email" type="email" autocomplete="email" inputmode="email">
+      <label for="cp">Phone number</label>
+      <input id="cp" name="phone" type="tel" autocomplete="tel" inputmode="tel">
+      <p class="hint">Please add an email address or a phone number, or both.</p>
       <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
       <label class="consent"><input type="checkbox" id="cch" name="consent" required><span>I’m happy for CARA Mortgage Services to contact me so we can book in a protection review.</span></label>
       <button class="go" id="cgo" type="submit">Request a call back</button>
@@ -772,6 +776,9 @@ function openContact(){
 $$('[data-contact]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openContact()}));
 $('#cdX').addEventListener('click',()=>dlg.close());$('#cdClose').addEventListener('click',()=>dlg.close());
 dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
+const needOne=()=>{const none=!$('#cc').value.trim()&&!$('#cp').value.trim();$('#cc').setCustomValidity(none?'Please add an email address or a phone number.':'')};
+$('#cc').addEventListener('input',needOne);$('#cp').addEventListener('input',needOne);needOne();
+cf.addEventListener('reset',()=>setTimeout(needOne));
 cf.addEventListener('submit',async e=>{
   e.preventDefault();
   const d=new FormData(cf), name=(d.get('name')||'').toString().trim();
@@ -781,7 +788,7 @@ cf.addEventListener('submit',async e=>{
   const btn=$('#cgo');btn.disabled=true;btn.textContent='Sending…';$('#cerr').hidden=true;
   try{
     const r=await fetch(CONTACT.endpoint,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body:JSON.stringify({name,email:d.get('email'),consentToContact:true,page:location.href,sentAt:new Date().toISOString(),...CONTACT.extra})});
+      body:JSON.stringify({name,email:d.get('email'),phone:d.get('phone'),consentToContact:true,page:location.href,sentAt:new Date().toISOString(),...CONTACT.extra})});
     if(!r.ok)throw 0;finish();
   }catch(_){$('#cerr').hidden=false}
   btn.disabled=false;btn.textContent='Request a call back';
