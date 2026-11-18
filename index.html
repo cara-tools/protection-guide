@@ -104,10 +104,10 @@ header.top{position:fixed;top:calc(12px + env(safe-area-inset-top));left:50%;tra
 header.top .logo{margin-right:auto;display:block}
 header.top .logo img{height:30px;width:auto}
 .lg-l{display:none}:root[data-theme="light"] .lg-l{display:block}:root[data-theme="light"] .lg-d{display:none}
-.nav-links{display:none;gap:2px}
-.nav-links a{font:600 13px var(--disp);padding:9px 13px;border-radius:99px;color:var(--ink2);transition:.25s}
+.nav-links{display:none;gap:2px;align-items:center}
+.nav-links a{font:600 13px/1.15 var(--disp);padding:8px 13px;text-align:center;text-wrap:balance;max-width:8.5em;border-radius:99px;color:var(--ink2);transition:.25s}
 .nav-links a:hover{background:var(--soft)}
-@media(min-width:700px){.nav-links{display:flex}header.top .logo{margin-right:10px}header.top{width:min(760px,calc(100% - 24px))}}
+@media(min-width:820px){.nav-links{display:flex}header.top .logo{margin-right:10px}header.top{width:max-content;max-width:calc(100% - 24px);padding-right:7px}}
 .pill{position:relative;transition:transform .25s;font:600 13px var(--disp);padding:10px 17px;border-radius:99px;background:var(--brand);color:#0a0e24;white-space:nowrap}
 .tgl{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:var(--soft);transition:.3s}
 .tgl svg{width:18px;height:18px;fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -117,7 +117,8 @@ header.top .logo img{height:30px;width:auto}
 .dots a.on{background:var(--acc);transform:scale(1.5)}
 @media(min-width:760px){.dots{display:flex}}
 .dock{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:40;display:flex;gap:4px;padding:5px;border-radius:99px;background:var(--navbg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);max-width:calc(100vw - 24px)}
-.dock a{font:600 12.5px var(--disp);padding:9px 13px;border-radius:99px;color:var(--dim);transition:.3s;white-space:nowrap}
+.dock{align-items:center}
+.dock a{font:600 12px/1.15 var(--disp);padding:8px 12px;border-radius:99px;color:var(--dim);transition:.3s;text-align:center;text-wrap:balance;max-width:9.5em}
 .dock a.on{background:var(--ink);color:var(--inv)}
 .dock{opacity:0;pointer-events:none;transition:opacity .4s}.dock.show{opacity:1;pointer-events:auto}
 
@@ -442,7 +443,7 @@ footer p+p{margin-top:10px}
 
 <header class="top">
   <a class="logo" href="#top" aria-label="CARA Mortgage Services"><img class="lg-d" src="logo-dark.svg" alt="CARA Mortgage Services"><img class="lg-l" src="logo.svg" alt="" aria-hidden="true"></a>
-  <nav class="nav-links" aria-label="Main"><a href="#life">Life</a><a href="#ci">Critical illness</a><a href="#ip">Income</a></nav>
+  <nav class="nav-links" aria-label="Main"><a href="#life">Life Cover</a><a href="#ci">Critical Illness Cover</a><a href="#ip">Income Protection</a></nav>
   <button class="tgl" id="tgl" aria-label="Switch between light and dark mode" title="Light / dark">
     <svg class="moon-i" viewBox="0 0 24 24"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg>
     <svg class="sun-i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.900 4.900l1.400 1.400M17.700 17.700l1.400 1.400M4.900 19.100l1.400-1.400M17.700 6.300l1.400-1.400"/></svg>
@@ -453,7 +454,7 @@ footer p+p{margin-top:10px}
   <a href="#top" data-s="hero" aria-label="Intro"></a><a href="#why" data-s="why" aria-label="Why"></a><a href="#life" data-s="life" aria-label="Life insurance"></a><a href="#ci" data-s="ci" aria-label="Critical illness"></a><a href="#ip" data-s="ip" aria-label="Income protection"></a>
 </nav>
 <nav class="dock" id="dock" aria-label="Quick jump">
-  <a href="#life" data-s="life">Life</a><a href="#ci" data-s="ci">Critical illness</a><a href="#ip" data-s="ip">Income</a>
+  <a href="#life" data-s="life">Life Cover</a><a href="#ci" data-s="ci">Critical Illness Cover</a><a href="#ip" data-s="ip">Income Protection</a>
 </nav>
 
 <main id="top">
